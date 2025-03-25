@@ -1,0 +1,548 @@
+/* Add production header at the top of the file */
+/*
+ * reNamerX - Theme Styles
+ * Version: 1.0.0
+ * Copyright (c) 2023-2025 ReNamerX Team
+ * Licensed under MIT License
+ */
+
+/* Cyberpunk theme colors - based on provided palette */
+:root {
+  /* Base cyberpunk color palette */
+  --cyberpunk-olive: #878c21;
+  --cyberpunk-yellow: #fdf000;
+  --cyberpunk-blue: #5abedc;
+  --cyberpunk-teal: #49c7a4;
+  --cyberpunk-purple: #4c1c8b;
+  --cyberpunk-magenta: #f01cf7;
+  
+  /* Additional theme colors */
+  --cyberpunk-dark: #0c0c1d;
+  --cyberpunk-darker: #050510;
+  --cyberpunk-text: #eaecff;
+  --cyberpunk-highlight: #ff2178;
+  --cyberpunk-accent1: #00fcfe;  /* Cyan accent */
+  --cyberpunk-accent2: #ff00ff;  /* Magenta accent */
+}
+
+/* Default theme (original dark theme) */
+:root {
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --accent-primary: #3b82f6;
+  --accent-hover: #2563eb;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --success: #10b981;
+}
+
+/* Cyberpunk theme */
+[data-theme="cyberpunk"] {
+  --bg-primary: var(--cyberpunk-dark);
+  --bg-secondary: var(--cyberpunk-darker);
+  --text-primary: var(--cyberpunk-text);
+  --text-secondary: #b8b8d0;
+  --accent-primary: var(--cyberpunk-teal);
+  --accent-hover: var(--cyberpunk-blue);
+  --danger: var(--cyberpunk-magenta);
+  --warning: var(--cyberpunk-yellow);
+  --success: var(--cyberpunk-teal);
+  
+  /* UI element styles */
+  --panel-bg: rgba(12, 12, 29, 0.8);
+  --panel-border: 1px solid var(--cyberpunk-accent1);
+  --neon-shadow: 0 0 5px var(--cyberpunk-accent1), 0 0 10px var(--cyberpunk-accent1);
+  --button-gradient: linear-gradient(90deg, var(--cyberpunk-blue), var(--cyberpunk-teal));
+}
+
+/* Apply cyberpunk styles to UI elements */
+[data-theme="cyberpunk"] .bg-white {
+  background-color: var(--panel-bg) !important;
+  border: var(--panel-border);
+  box-shadow: var(--neon-shadow);
+}
+
+[data-theme="cyberpunk"] .bg-gray-800 {
+  background-color: var(--cyberpunk-darker) !important;
+}
+
+[data-theme="cyberpunk"] .bg-blue-500 {
+  background: var(--button-gradient) !important;
+}
+
+[data-theme="cyberpunk"] .bg-blue-600 {
+  background: var(--button-gradient) !important;
+}
+
+[data-theme="cyberpunk"] button.bg-blue-600,
+[data-theme="cyberpunk"] button.bg-blue-500 {
+  background: var(--button-gradient) !important;
+  border: 1px solid var(--cyberpunk-accent1);
+  box-shadow: 0 0 5px var(--cyberpunk-accent1);
+  transition: all 0.3s ease;
+}
+
+[data-theme="cyberpunk"] button.bg-blue-600:hover,
+[data-theme="cyberpunk"] button.bg-blue-500:hover {
+  background: linear-gradient(90deg, var(--cyberpunk-blue), var(--cyberpunk-accent1)) !important;
+  box-shadow: 0 0 8px var(--cyberpunk-accent1), 0 0 12px var(--cyberpunk-accent1);
+  transform: translateY(-1px);
+}
+
+[data-theme="cyberpunk"] .border-gray-200 {
+  border-color: rgba(90, 190, 220, 0.2) !important;
+}
+
+[data-theme="cyberpunk"] .border-gray-300 {
+  border-color: rgba(90, 190, 220, 0.3) !important;
+}
+
+/* Cyberpunk text styles */
+[data-theme="cyberpunk"] h3 {
+  color: var(--cyberpunk-accent1) !important;
+  text-shadow: 0 0 5px var(--cyberpunk-accent1);
+}
+
+[data-theme="cyberpunk"] .text-blue-600 {
+  color: var(--cyberpunk-accent1) !important;
+}
+
+[data-theme="cyberpunk"] .text-green-600 {
+  color: var(--cyberpunk-teal) !important;
+}
+
+/* Apply theme to body */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.dark\:bg-gray-800 {
+  background-color: var(--bg-secondary);
+}
+
+.dark\:bg-gray-700 {
+  background-color: rgba(31, 41, 55, 0.7);
+}
+
+.dark\:text-white {
+  color: var(--text-primary);
+}
+
+.dark\:text-gray-300, .dark\:text-gray-400 {
+  color: var(--text-secondary);
+}
+
+/* Add a subtle grid pattern to the background */
+[data-theme="cyberpunk"] body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(rgba(12, 12, 29, 0.7) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(12, 12, 29, 0.7) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Apply neon effects to headings */
+[data-theme="cyberpunk"] h1 {
+  color: var(--cyberpunk-accent1) !important;
+  text-shadow: 0 0 5px var(--cyberpunk-accent1), 0 0 10px rgba(0, 252, 254, 0.5);
+  letter-spacing: 1px;
+}
+
+[data-theme="cyberpunk"] h2 {
+  color: var(--cyberpunk-teal) !important;
+  text-shadow: 0 0 5px var(--cyberpunk-teal);
+}
+
+/* Toggle switch styling - clean implementation */
+[data-theme="cyberpunk"] input[type="checkbox"]:checked + div {
+  background: linear-gradient(90deg, var(--cyberpunk-teal), var(--cyberpunk-yellow)) !important;
+}
+
+/* Target the exact toggle structure in the components */
+[data-theme="cyberpunk"] label.flex.items-center.cursor-pointer .relative {
+  position: relative;
+  display: inline-block;
+}
+
+[data-theme="cyberpunk"] label.flex.items-center.cursor-pointer input[type="checkbox"] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+[data-theme="cyberpunk"] label.flex.items-center.cursor-pointer div.block {
+  width: 40px !important;
+  height: 24px !important;
+  border-radius: 24px !important;
+  position: relative;
+}
+
+[data-theme="cyberpunk"] label.flex.items-center.cursor-pointer div.absolute {
+  position: absolute;
+  top: 4px !important;
+  left: 4px !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 16px !important;
+  transition: 0.2s;
+  background: #ffffff;
+  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+}
+
+[data-theme="cyberpunk"] label.flex.items-center.cursor-pointer input[type="checkbox"]:checked + div div.absolute {
+  left: 4px !important;
+  transform: translateX(16px) !important;
+}
+
+/* Add purple accents for info icons */
+[data-theme="cyberpunk"] .text-blue-500 {
+  color: var(--cyberpunk-magenta) !important;
+}
+
+/* Custom styling for inputs */
+[data-theme="cyberpunk"] input[type="text"],
+[data-theme="cyberpunk"] input[type="number"],
+[data-theme="cyberpunk"] select {
+  background-color: rgba(12, 12, 29, 0.8) !important;
+  border: 1px solid var(--cyberpunk-blue) !important;
+  color: var(--cyberpunk-text) !important;
+  transition: all 0.3s ease;
+}
+
+[data-theme="cyberpunk"] input[type="text"]:focus,
+[data-theme="cyberpunk"] input[type="number"]:focus,
+[data-theme="cyberpunk"] select:focus {
+  border-color: var(--cyberpunk-yellow) !important;
+  box-shadow: 0 0 0 1px var(--cyberpunk-yellow), 0 0 8px rgba(253, 240, 0, 0.5) !important;
+}
+
+/* Yellow highlight for the active tab */
+[data-theme="cyberpunk"] button.bg-blue-600,
+[data-theme="cyberpunk"] button.bg-blue-500 {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="cyberpunk"] button.bg-blue-600::before,
+[data-theme="cyberpunk"] button.bg-blue-500::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(253, 240, 0, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+[data-theme="cyberpunk"] button.bg-blue-600:hover::before,
+[data-theme="cyberpunk"] button.bg-blue-500:hover::before {
+  left: 100%;
+}
+
+/* Add yellow border flash effect to panels on hover */
+@keyframes border-flash {
+  0% {
+    border-color: var(--cyberpunk-accent1);
+    box-shadow: 0 0 5px var(--cyberpunk-accent1);
+  }
+  50% {
+    border-color: var(--cyberpunk-yellow);
+    box-shadow: 0 0 8px var(--cyberpunk-yellow);
+  }
+  100% {
+    border-color: var(--cyberpunk-accent1);
+    box-shadow: 0 0 5px var(--cyberpunk-accent1);
+  }
+}
+
+[data-theme="cyberpunk"] .bg-white:hover {
+  animation: border-flash 2s infinite;
+}
+
+/* Custom scrollbar */
+[data-theme="cyberpunk"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="cyberpunk"] ::-webkit-scrollbar-track {
+  background: var(--cyberpunk-darker);
+}
+
+[data-theme="cyberpunk"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--cyberpunk-blue), var(--cyberpunk-teal));
+  border-radius: 4px;
+}
+
+[data-theme="cyberpunk"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--cyberpunk-teal), var(--cyberpunk-yellow));
+}
+
+/* Apply purple for warning elements */
+[data-theme="cyberpunk"] .bg-yellow-50 {
+  background-color: rgba(76, 28, 139, 0.2) !important;
+  border-left: 2px solid var(--cyberpunk-purple) !important;
+}
+
+[data-theme="cyberpunk"] .text-yellow-800 {
+  color: var(--cyberpunk-yellow) !important;
+}
+
+/* File selection highlight */
+[data-theme="cyberpunk"] .bg-blue-50 {
+  background-color: rgba(73, 199, 164, 0.1) !important;
+  border-left: 2px solid var(--cyberpunk-teal) !important;
+}
+
+/* Theme toggle button enhancement - fix the :has() selector */
+[data-theme="cyberpunk"] .theme-toggle-button.dark-mode {
+  background: linear-gradient(90deg, var(--cyberpunk-purple), var(--cyberpunk-magenta)) !important;
+  border: none !important;
+  color: white !important;
+  box-shadow: 0 0 5px var(--cyberpunk-magenta), 0 0 10px rgba(240, 28, 247, 0.5) !important;
+}
+
+/* Header divider with gradient */
+[data-theme="cyberpunk"] h1::after {
+  content: '';
+  display: block;
+  margin-top: 8px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--cyberpunk-accent1),
+    var(--cyberpunk-teal),
+    var(--cyberpunk-yellow),
+    var(--cyberpunk-magenta)
+  );
+  border-radius: 2px;
+  animation: gradient-shift 3s linear infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Add a subtle vignette effect */
+[data-theme="cyberpunk"] #root::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Add logo styling */
+.logo-part {
+  color: #888;
+  font-weight: normal;
+}
+
+.logo-main {
+  font-weight: bold;
+}
+
+.logo-x {
+  color: #3b82f6;
+  font-weight: 900;
+}
+
+/* Cyberpunk logo styling */
+[data-theme="cyberpunk"] .logo-part {
+  color: var(--cyberpunk-blue);
+  text-shadow: 0 0 5px var(--cyberpunk-blue);
+}
+
+[data-theme="cyberpunk"] .logo-main {
+  color: var(--cyberpunk-teal);
+  text-shadow: 0 0 5px var(--cyberpunk-teal);
+}
+
+[data-theme="cyberpunk"] .logo-x {
+  color: var(--cyberpunk-yellow);
+  text-shadow: 0 0 5px var(--cyberpunk-yellow), 0 0 10px var(--cyberpunk-yellow);
+  position: relative;
+  display: inline-block;
+  animation: pulse 2s infinite;
+  transform-origin: center;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Add a glow to form inputs when active */
+[data-theme="cyberpunk"] input:focus::placeholder {
+  color: var(--cyberpunk-teal);
+  transition: color 0.3s ease;
+}
+
+/* Add a subtle yellow edge light to panels */
+[data-theme="cyberpunk"] .bg-white {
+  position: relative;
+}
+
+[data-theme="cyberpunk"] .bg-white::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--cyberpunk-yellow);
+  opacity: 0.7;
+  box-shadow: 0 0 8px var(--cyberpunk-yellow);
+  z-index: 1;
+}
+
+/* Enhance error colors */
+[data-theme="cyberpunk"] .text-red-500 {
+  color: var(--cyberpunk-magenta) !important;
+  text-shadow: 0 0 5px var(--cyberpunk-magenta);
+}
+
+/* Improve the tab styling */
+[data-theme="cyberpunk"] button.bg-blue-600.border-b-2 {
+  border-bottom: 2px solid var(--cyberpunk-yellow) !important;
+  box-shadow: 0 4px 6px -4px var(--cyberpunk-yellow);
+}
+
+/* Add style to window title bar for browser */
+[data-theme="cyberpunk"] .tauri-window-titlebar {
+  background: linear-gradient(
+    90deg,
+    var(--cyberpunk-darker),
+    rgba(12, 12, 29, 0.95)
+  ) !important;
+  border-bottom: 1px solid var(--cyberpunk-teal) !important;
+}
+
+/* Improve checkbox visibility */
+[data-theme="cyberpunk"] input[type="checkbox"] {
+  accent-color: var(--cyberpunk-teal);
+  box-shadow: 0 0 3px var(--cyberpunk-teal);
+}
+
+/* Enhance switch toggle appearance */
+[data-theme="cyberpunk"] .bg-blue-500 + div {
+  box-shadow: 0 0 5px var(--cyberpunk-accent1);
+}
+
+/* Fix for dialog errors */
+[data-theme="cyberpunk"] dialog {
+  background-color: var(--cyberpunk-darker);
+  border: var(--panel-border);
+  box-shadow: var(--neon-shadow);
+  color: var(--cyberpunk-text);
+}
+
+/* Theme switch button enhanced style */
+[data-theme="cyberpunk"] button {
+  transition: all 0.3s ease;
+}
+
+[data-theme="cyberpunk"] button:not(.bg-blue-600):not(.bg-blue-500):not(.bg-red-600):hover {
+  box-shadow: 0 0 8px var(--cyberpunk-accent1);
+  border-color: var(--cyberpunk-accent1) !important;
+}
+
+/* Enhance tab styles with active yellow highlight */
+[data-theme="cyberpunk"] .border-blue-500 {
+  border-color: var(--cyberpunk-yellow) !important;
+  box-shadow: 0 0 5px var(--cyberpunk-yellow), 0 0 8px var(--cyberpunk-yellow);
+}
+
+/* Add glitch animation for h1 title */
+@keyframes glitch {
+  0% {
+    text-shadow: 0 0 5px var(--cyberpunk-accent1), 0 0 10px rgba(0, 252, 254, 0.5);
+    transform: translate(0);
+  }
+  20% {
+    text-shadow: -1px 0 2px var(--cyberpunk-yellow), 1px 0 2px var(--cyberpunk-magenta);
+    transform: translate(-1px, 1px);
+  }
+  40% {
+    text-shadow: 1px 0 2px var(--cyberpunk-accent1), -1px 0 2px var(--cyberpunk-yellow);
+    transform: translate(1px, -1px);
+  }
+  60% {
+    text-shadow: 0 0 5px var(--cyberpunk-accent1), 0 0 10px rgba(0, 252, 254, 0.5);
+    transform: translate(0);
+  }
+  80% {
+    text-shadow: 1px 0 2px var(--cyberpunk-magenta), -1px 0 2px var(--cyberpunk-accent1);
+    transform: translate(1px, 1px);
+  }
+  100% {
+    text-shadow: 0 0 5px var(--cyberpunk-accent1), 0 0 10px rgba(0, 252, 254, 0.5);
+    transform: translate(0);
+  }
+}
+
+[data-theme="cyberpunk"] h1 {
+  position: relative;
+  animation: glitch 5s infinite alternate;
+}
+
+/* Add scanline effect */
+[data-theme="cyberpunk"] body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.015) 0px,
+    rgba(0, 0, 0, 0.015) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  opacity: 0.7;
+  z-index: 9999;
+} 

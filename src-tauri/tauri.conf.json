@@ -1,0 +1,37 @@
+{
+  "$schema": "https://beta.tauri.app/schemas/config.json",
+  "identifier": "com.renamerx.app",
+  "version": "1.0.0",
+  "app": {
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "title": "reNamerX",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false,
+        "minWidth": 800,
+        "minHeight": 600
+      }
+    ]
+  },
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist"
+  },
+  "plugins": {
+    "fs": {
+      "requireLiteralLeadingDot": false
+    },
+    "dialog": null,
+    "path": null,
+    "shell": {
+      "open": true
+    }
+  }
+}

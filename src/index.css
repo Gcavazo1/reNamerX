@@ -1,0 +1,12 @@
+/* Add production header at the top of the file */
+/*
+ * reNamerX - A powerful desktop file renaming utility
+ * Version: 1.0.0
+ * Copyright (c) 2023-2025 ReNamerX Team
+ * Licensed under MIT License
+ */
+
+@import './styles/theme.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities; 
