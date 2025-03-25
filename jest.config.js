@@ -2,7 +2,12 @@
 export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  rootDir: '.',
   setupFilesAfterEnv: ['<rootDir>/src/__tests__/setup.ts'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/stay_hard_956/'
+  ],
   moduleNameMapper: {
     // Handle CSS imports (with CSS modules)
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
