@@ -1,153 +1,216 @@
 # reNamerX User Guide
 
-This document provides detailed instructions for using reNamerX to efficiently rename your files.
+This guide covers all the features and functionality of reNamerX to help you efficiently rename your files.
+
+## Table of Contents
+- [Getting Started](#getting-started)
+- [Interface Overview](#interface-overview)
+- [Selecting Files](#selecting-files)
+- [Renaming Rules](#renaming-rules)
+- [Previewing Changes](#previewing-changes)
+- [Applying Renames](#applying-renames)
+- [Undo & Redo](#undo--redo)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
+- [Themes](#themes)
+- [Tips & Tricks](#tips--tricks)
 
 ## Getting Started
 
-### Main Interface Overview
+After installing reNamerX, launch the application. You'll see a clean interface divided into two main sections:
+- Left side: File selection and preview
+- Right side: Renaming rules and options
 
-The reNamerX interface is divided into three main panels:
+## Interface Overview
 
-1. **File List Panel** (Left): Displays all selected files with their current and new names
-2. **Renaming Rules Panel** (Center): Contains tools and options for configuring renaming operations
-3. **Preview Panel** (Right): Shows a preview of the renaming results before applying changes
+### Main Sections
+1. **Files Panel** - Select and manage files to rename
+2. **Rules Panel** - Configure renaming rules and patterns
+3. **Preview Panel** - See how files will be renamed before applying changes
+4. **Action Bar** - Apply changes, undo operations, and access settings
 
-### Selecting Files
+### Top Bar Elements
+- **Theme Toggle** - Switch between dark and cyberpunk themes
+- **Undo Button** - Revert the most recent rename operation
+- **Keyboard Shortcuts** - Access the keyboard shortcuts help panel
 
-There are two ways to select files for renaming:
+## Selecting Files
 
-- **Browse Files**: Click the "Browse Files" button to select individual files
-- **Browse Folder**: Click the "Browse Folder" button to select all files in a directory
+### Methods for Adding Files
 
-You can filter files by extension by using the filter options in the top toolbar.
+1. **Open Files**
+   - Click the "Browse Files" button
+   - Use keyboard shortcut `Ctrl+O`
+   - Select multiple files in the file picker dialog
+   
+2. **Open Directory**
+   - Click the "Browse Folder" button
+   - Use keyboard shortcut `Ctrl+D`
+   - Select a folder to add all files within it
 
-## Renaming Operations
+### Managing Selected Files
 
-reNamerX offers several methods to rename your files:
+- **Select All Files**: Ctrl+A
+- **Invert Selection**: Ctrl+N
+- **Deselect All**: Press Escape
+- **Remove Selected Files**: Click the "Clear Files" button or press Ctrl+K
+- **Filter Files**: Use the search box to filter files by name
 
-### Add Text
+## Renaming Rules
 
-Adds text at a specific position in the filename.
+reNamerX offers several types of renaming rules that can be combined to create powerful rename patterns:
 
-1. Select the "Add Text" option
-2. Enter the text you want to add
-3. Choose where to add the text:
-   - At the beginning of the filename
-   - At the end of the filename
-   - At a specific position (enter the position number)
-4. Click "Preview" to see the results
+### Text Operations
 
-### Remove Text
+1. **Replace Text**
+   - Replace specific text or patterns with new text
+   - Supports case-sensitive and whole word matching
+   - Option for regular expressions
 
-Removes characters from specific positions in the filename.
+2. **Add/Remove Text**
+   - Add prefix or suffix to filenames
+   - Remove specific number of characters from the start or end
+   - Insert text at a specific position
 
-1. Select the "Remove Text" option
-2. Choose the removal method:
-   - Remove a specific number of characters
-   - Remove characters from position X to Y
-   - Remove all characters after/before a specific position
-3. Enter the position values
-4. Click "Preview" to see the results
-
-### Replace Text
-
-Replaces specific text or patterns in the filename.
-
-1. Select the "Replace Text" option
-2. Enter the text or pattern to find
-3. Enter the replacement text
-4. Toggle "Use Regular Expressions" if needed
-5. Toggle "Case Sensitive" if needed
-6. Click "Preview" to see the results
-
-### Case Conversion
-
-Changes the case format of the filename.
-
-1. Select the "Case Conversion" option
-2. Choose a case format:
-   - UPPERCASE
-   - lowercase
-   - Title Case (First Letter Of Each Word)
-   - Sentence case (First letter of sentence)
-3. Click "Preview" to see the results
+3. **Change Case**
+   - Convert to UPPERCASE, lowercase, Title Case, or Sentence case
+   - Mixed case options (e.g., camelCase, snake_case)
 
 ### Numbering
 
-Adds sequential numbers to filenames.
+1. **Sequential Numbering**
+   - Add sequential numbers to filenames
+   - Configure start number, increment, and padding
+   - Choose number placement (prefix, suffix, or specific position)
 
-1. Select the "Numbering" option
-2. Configure the numbering options:
-   - Starting number
-   - Increment
-   - Number of digits (padding with zeros)
-   - Position (start, end, or specific position)
-   - Separator character (e.g., "-", "_")
-3. Click "Preview" to see the results
+2. **Date/Time**
+   - Add current date/time to filenames
+   - Customize date/time format
+   - Use file creation or modification dates
 
-## Advanced Features
+### Advanced Rules
 
-### File Selection and Filtering
+1. **Regular Expressions**
+   - Use regex for complex pattern matching and replacement
+   - Access captured groups in replacement string
 
-- **Select All**: Click the checkbox in the column header to select all files
-- **Invert Selection**: Right-click and choose "Invert Selection"
-- **Filter by Type**: Use the filter dropdown to show only specific file types
-- **Sort Files**: Click column headers to sort by name, size, or date
+2. **Rule Presets**
+   - Save combinations of rules for reuse
+   - Load saved presets for quick application
 
-### Preview and Apply
+## Previewing Changes
 
-1. After configuring your renaming rules, the preview panel automatically shows the new filenames
-2. Check for any warnings or errors (highlighted in red)
-3. Click "Apply" to rename the files
+The preview panel shows how your files will look after applying the rename rules:
 
-### Managing Undo Operations
+1. **Preview Modes**
+   - List view: Shows original and new names in a list
+   - Side-by-side view: Two-column comparison of original and new names
+   - Toggle between modes with the preview toggle or Ctrl+P
 
-1. After renaming files, the "Undo" button becomes active
-2. Click "Undo" to revert the most recent batch of renamed files
-3. The undo history keeps track of multiple rename operations
+2. **Preview Features**
+   - Real-time updates as rules are modified
+   - Highlights valid and invalid names
+   - Shows number of files that will be renamed
+
+## Applying Renames
+
+When you're satisfied with the preview:
+
+1. Click the "Apply" button at the bottom of the window
+2. Alternatively, use the keyboard shortcut Ctrl+Shift+R
+3. Wait for the operation to complete
+4. A success message will indicate how many files were renamed
+
+## Undo & Redo
+
+reNamerX keeps track of your rename operations:
+
+1. **Undo**
+   - Click the "Undo" button in the top right
+   - Use keyboard shortcut Ctrl+Z
+   - Undoes the most recent batch of renames
+
+2. **Redo**
+   - Use keyboard shortcut Ctrl+Y or Ctrl+Shift+Z
+   - Redoes the most recently undone operation
 
 ## Keyboard Shortcuts
 
-reNamerX supports the following keyboard shortcuts for faster workflow:
+reNamerX provides numerous keyboard shortcuts for efficient workflow:
 
-- **Ctrl+O**: Open file selection dialog
-- **Ctrl+D**: Open folder selection dialog
-- **Ctrl+Z**: Undo last rename operation
-- **Ctrl+A**: Select all files
-- **Ctrl+Enter**: Apply rename rules
-- **Esc**: Clear current selection
-- **Delete**: Remove selected files from the list
+| Action | Shortcut |
+|--------|----------|
+| Open Files | Ctrl+O |
+| Open Directory | Ctrl+D |
+| Select All Files | Ctrl+A |
+| Invert Selection | Ctrl+N |
+| Clear Selected Files | Ctrl+K |
+| Deselect All Files | Esc |
+| Toggle Preview Mode | Ctrl+P |
+| Apply Rename | Ctrl+Shift+R |
+| Undo Operation | Ctrl+Z |
+| Redo Operation | Ctrl+Y or Ctrl+Shift+Z |
+| Save Rules Preset | Ctrl+Alt+S |
+| Toggle Theme | Ctrl+Shift+T |
+| Show Shortcuts | Ctrl+H |
+| Focus Search | Ctrl+/ |
 
-## Best Practices
+Access the complete list of shortcuts in the app by pressing Ctrl+H.
 
-1. **Start with a backup**: While reNamerX includes undo functionality, it's always good practice to have a backup of important files before batch renaming.
+## Themes
 
-2. **Use the preview**: Always check the preview before applying changes to ensure the results match your expectations.
+reNamerX offers two visual themes:
 
-3. **Incremental changes**: For complex renaming tasks, consider making changes in multiple smaller steps rather than one complex operation.
+1. **Dark Theme**
+   - Dark background with light text
+   - Reduced eye strain in low-light environments
 
-4. **Avoid illegal characters**: Remember that certain characters are not allowed in filenames on different operating systems: \ / : * ? " < > |
+2. **Cyberpunk Theme**
+   - Vibrant color scheme with neon accents
+   - High contrast interface
 
-5. **Use descriptive names**: Choose filenames that describe the content and are easy to search for later.
+Toggle between themes using:
+- The theme button in the top bar
+- Keyboard shortcut Ctrl+Shift+T
 
-## Troubleshooting
+## Tips & Tricks
 
-### Common Issues
+### Efficient Workflows
 
-- **Files Not Showing**: Ensure you have appropriate permissions to access the selected files
-- **Cannot Rename**: Check if files are locked by another application
-- **Undo Not Working**: Ensure the application has write permissions to the file locations
+1. **Save Rule Presets**
+   - For frequently used rename patterns
+   - Create a preset library for different types of files
 
-### Error Messages
+2. **Batch Processing Large Numbers of Files**
+   - Process files in smaller batches for better performance
+   - Use more specific file filters to work with subsets
 
-- **"File in use"**: Close any applications that might be using the file
-- **"Invalid characters"**: Remove any illegal characters from your renaming pattern
-- **"Path too long"**: Shorten the target filename to stay within system limits
+3. **Testing Complex Rules**
+   - Create a small test batch before applying to many files
+   - Use regex testing tools for complex pattern matching
+
+4. **Using Search to Filter Files**
+   - Filter files by extension: `.jpg`
+   - Filter by common prefix/suffix: `IMG_` or `_FINAL`
+
+### Advanced Tips
+
+1. **Sequential Numbering Across Folders**
+   - Number files across multiple folders with continuous sequence
+   - Set the correct sort order before applying numbering
+
+2. **Complex File Organization**
+   - Use multiple rename operations in sequence
+   - Take advantage of undo/redo to experiment with different approaches
+
+3. **Regular Expression Power Usage**
+   - Use backreferences in regex replacements: `$1`, `$2`
+   - Capture and rearrange parts of filenames
 
 ## Getting Help
 
-If you encounter any issues or have questions about using reNamerX, please:
+If you encounter issues or have questions:
+1. Check this documentation for guidance
+2. Look for your question in the GitHub repository's Issues section
+3. Open a new issue if needed
 
-1. Check the documentation for answers
-2. Visit our GitHub repository at [GitHub](#) for known issues
-3. Submit a bug report with detailed information about the problem 
+Thank you for using reNamerX! 

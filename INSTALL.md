@@ -1,34 +1,101 @@
-# reNamerX Installation Guide
-
-This document provides detailed instructions for installing reNamerX on different operating systems.
-
-## System Requirements
-
-- **Windows**: Windows 10 or later
-- **macOS**: macOS 10.15 (Catalina) or later
-- **Linux**: Ubuntu 20.04+, Fedora 36+, or other modern distributions
+# Installation Guide for reNamerX
 
 ## Windows Installation
 
-### Using the Installer (Recommended)
+### System Requirements
+- Windows 10 or newer
+- 64-bit operating system
+- At least 50MB of free disk space
+- 4GB RAM recommended
 
-1. Download the latest `.exe` installer from the [Releases](#) page
-2. Double-click the downloaded file to start the installation process
-3. Follow the on-screen instructions to complete the installation
-4. Launch reNamerX from the Start Menu or desktop shortcut
+### Installation Methods
 
-### Using the MSI Package (Alternative)
+#### Method 1: MSI Installer (Recommended)
+1. Download the latest MSI installer (`reNamerX_1.0.0_x64_en-US.msi`) from the [Releases page](https://github.com/Gcavazo1/reNamerX/releases/latest)
+2. Double-click the downloaded MSI file
+3. Follow the installation wizard:
+   - Accept the license agreement
+   - Choose the installation location (default is recommended)
+   - Select whether to create desktop shortcut
+   - Click "Install"
+4. If prompted by Windows Defender or UAC, allow the installation to proceed
+5. Click "Finish" when the installation is complete
 
-1. Download the latest `.msi` package from the [Releases](#) page
-2. Double-click the downloaded file to start the installation process
-3. Follow the on-screen instructions to complete the installation
-4. Launch reNamerX from the Start Menu or desktop shortcut
+#### Method 2: EXE Installer
+1. Download the latest EXE installer (`reNamerX_1.0.0_x64-setup.exe`) from the [Releases page](https://github.com/Gcavazo1/reNamerX/releases/latest)
+2. Double-click the downloaded EXE file
+3. If prompted by Windows Defender or UAC, allow the installation to proceed
+4. Follow the installation wizard
+5. Click "Finish" when the installation is complete
 
-### Manual Installation (Portable)
+### Launching the Application
+- Launch from the Start Menu: Start → All Programs → reNamerX
+- Launch from the desktop shortcut (if created during installation)
 
-1. Download the `.zip` archive from the [Releases](#) page
-2. Extract the contents to a folder of your choice
-3. Run `reNamerX.exe` to start the application
+### Uninstalling
+1. Open Control Panel → Programs → Programs and Features
+2. Find "reNamerX" in the list
+3. Right-click and select "Uninstall"
+4. Follow the uninstallation wizard
+
+## Building from Source
+
+If you prefer to build the application from source, follow these steps:
+
+### Prerequisites
+- Node.js 16 or newer
+- npm or yarn
+- Rust and Cargo (for Tauri)
+- Git
+
+### Tauri Prerequisites
+Tauri requires certain dependencies based on your platform. Follow the [official Tauri setup guide](https://tauri.app/v1/guides/getting-started/prerequisites) to install them.
+
+### Build Steps
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Gcavazo1/reNamerX.git
+cd reNamerX
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Run in development mode:
+```bash
+npm run tauri dev
+```
+
+4. Build the application:
+```bash
+npm run tauri build
+```
+
+5. Find the built installers in:
+   - MSI: `src-tauri/target/release/bundle/msi/reNamerX_1.0.0_x64_en-US.msi`
+   - EXE: `src-tauri/target/release/bundle/nsis/reNamerX_1.0.0_x64-setup.exe`
+
+## Troubleshooting
+
+### Common Installation Issues
+
+#### "Windows protected your PC" message
+1. Click "More info"
+2. Click "Run anyway"
+
+#### Application doesn't start after installation
+1. Make sure your system meets the requirements
+2. Try running as Administrator
+3. Check Windows Event Viewer for error details
+
+#### Missing DLL errors
+1. Install the latest [Microsoft Visual C++ Redistributable](https://docs.microsoft.com/en-US/cpp/windows/latest-supported-vc-redist)
+2. Ensure WebView2 Runtime is installed
+
+For additional help, please [open an issue](https://github.com/Gcavazo1/reNamerX/issues/new) on GitHub.
 
 ## macOS Installation
 
@@ -87,65 +154,6 @@ To update to the latest version:
 1. Download the latest package for your platform from the [Releases](#) page
 2. Install it using the same method as the initial installation
 3. The installer will automatically replace the previous version
-
-## Troubleshooting
-
-### Windows
-
-- **Application Won't Start**: Ensure you have the latest Microsoft Visual C++ Redistributable installed
-- **Permission Errors**: Try running the installer as administrator
-- **File Association Issues**: Right-click any file, select "Open with" and choose reNamerX if you want to associate file types with the application
-
-### macOS
-
-- **"App is damaged"**: Right-click the app and select "Open" to bypass Gatekeeper
-- **"App can't be opened"**: Go to System Preferences > Security & Privacy and click "Open Anyway"
-- **App Not Responding**: Check Activity Monitor and force quit if necessary, then restart the application
-
-### Linux
-
-- **Missing Libraries**: Install the required dependencies:
-  ```bash
-  # Ubuntu/Debian
-  sudo apt install libwebkit2gtk-4.0-dev libgtk-3-dev libappindicator3-dev
-  
-  # Fedora
-  sudo dnf install webkit2gtk3-devel gtk3-devel libappindicator-gtk3-devel
-  ```
-
-- **AppImage Not Launching**: Ensure you've made the AppImage executable with chmod
-- **Permission Denied**: Check that you have write access to the directories where files will be renamed
-
-## Uninstallation
-
-### Windows
-
-1. Open Control Panel > Programs > Programs and Features
-2. Select reNamerX and click "Uninstall"
-3. Follow the uninstallation wizard
-
-### macOS
-
-1. Drag the reNamerX application from Applications to Trash
-2. Empty the Trash
-
-### Linux
-
-#### AppImage
-
-1. Delete the AppImage file
-
-#### Debian/Ubuntu
-
-```bash
-sudo apt remove renamerx
-```
-
-#### Fedora/RHEL
-
-```bash
-sudo dnf remove renamerx
-```
 
 ## Getting Help
 

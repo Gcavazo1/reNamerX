@@ -4,48 +4,79 @@ A powerful desktop file batch renaming application developed by Gabriel Cavazos 
 
 ## Features
 
-- **Intuitive Interface**: Clean, modern user interface with dark theme support
+- **Intuitive Interface**: Clean, modern user interface with dark and cyberpunk theme support
 - **Powerful Renaming Rules**: Text operations, case transformation, sequential numbering
-- **Smart Undo System**: Safely undo any batch rename operation
+- **Smart Undo System**: Safely undo any batch rename operation with Ctrl+Z
 - **Live Preview**: See how your files will be renamed before applying changes
 - **Batch Processing**: Rename hundreds of files at once with consistent rules
-- **Cross-platform**: Available for Windows, macOS, and Linux
+- **Cross-platform**: Built with Tauri for Windows (macOS and Linux coming soon)
 
 ## Installation
 
-For detailed installation instructions for all platforms, please see [INSTALL.md](INSTALL.md).
+### Windows
 
-### Quick Start (Windows)
-
-1. Download the latest Windows installer (.exe) from [Releases](#)
-2. Run the installer and follow the installation wizard
-3. Launch reNamerX from the Start Menu or desktop shortcut
+1. Download the latest Windows installer from [Releases](https://github.com/Gcavazo1/reNamerX/releases/latest)
+2. Choose either:
+   - MSI installer (recommended): `reNamerX_1.0.0_x64_en-US.msi`
+   - EXE installer: `reNamerX_1.0.0_x64-setup.exe`
+3. Run the installer and follow the installation wizard
+4. Launch reNamerX from the Start Menu or desktop shortcut
 
 ## Usage
-
-For comprehensive usage instructions, please see [USAGE.md](USAGE.md).
 
 ### Basic Workflow
 
 1. Click "Browse Files" to select individual files or "Browse Folder" to select all files in a directory
-2. Configure your renaming rules in the center panel
+2. Configure your renaming rules in the right panel
 3. Preview changes in real-time
 4. Click "Apply" to execute the rename operation
-
-## Documentation
-
-- [Installation Guide](INSTALL.md) - Detailed installation instructions for all platforms
-- [User Guide](USAGE.md) - Comprehensive instructions on using all features
-- [Release Checklist](RELEASE-CHECKLIST.md) - Process for creating new releases
-- [Next Steps](NEXT-STEPS.md) - Distribution and future development guidance
+5. Use Ctrl+Z to undo operations if needed
 
 ## Keyboard Shortcuts
 
 - **Ctrl+O**: Open file selection dialog
 - **Ctrl+D**: Open folder selection dialog
 - **Ctrl+Z**: Undo last rename operation
-- **Ctrl+Enter**: Apply rename rules
-- **Esc**: Clear current selection
+- **Ctrl+Y** or **Ctrl+Shift+Z**: Redo operation
+- **Ctrl+Shift+R**: Apply rename rules
+- **Ctrl+A**: Select all files
+- **Ctrl+N**: Invert selection
+- **Ctrl+P**: Toggle preview mode
+- **Ctrl+K**: Clear selected files
+- **Escape**: Deselect all files
+- **Ctrl+Alt+S**: Save current rules as preset
+- **Ctrl+Shift+T**: Toggle dark/light theme
+- **Ctrl+H**: Show keyboard shortcuts
+- **Ctrl+/**: Focus search box
+
+## Development
+
+### Building from Source
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Gcavazo1/reNamerX.git
+cd reNamerX
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Run the development server:
+```bash
+npm run tauri dev
+```
+
+4. Build the application:
+```bash
+npm run tauri build
+```
+
+The installers will be created in:
+- `src-tauri/target/release/bundle/msi/` (MSI installer)
+- `src-tauri/target/release/bundle/nsis/` (EXE installer)
 
 ## License
 
@@ -58,4 +89,4 @@ reNamerX is developed by Gabriel Cavazos (GigaCode), a software developer focuse
 ## Acknowledgments
 
 - Built with [Tauri](https://tauri.app/), [React](https://reactjs.org/), and [TailwindCSS](https://tailwindcss.com/)
-- Special thanks to the Tauri community for their excellent documentation and support
+- Uses [Zustand](https://github.com/pmndrs/zustand) for state management
