@@ -4,56 +4,123 @@ import {
   FileList, 
   FileSelector, 
   PreviewPanel,
-  RulesContainer
+  RulesContainer,
+  Header,
+  DirectoryBrowser,
+  ThemeToggle,
+  UndoManager
 } from './components';
+import ShortcutHelp from './components/common/ShortcutHelp';
 import { useAppShortcuts } from './utils/keyboardShortcuts';
+import ErrorBoundary from './components/common/ErrorBoundary';
+import ErrorProvider from './context/ErrorContext';
+import { useSettingsStore } from './stores/settingsStore';
+import { useRulesStore } from './stores/rulesStore';
+import { useFileStore } from './stores/fileStore';
+import { useFileFilterStore } from './stores/fileFilterStore';
+
+// Create a hook wrapper that we can use inside the ErrorProvider
+const KeyboardShortcutsWrapper = () => {
+  useAppShortcuts();
+  return null;
+};
 
 function App() {
-  const [theme, setTheme] = useState<'dark' | 'cyberpunk'>('dark');
+  const { darkMode, toggleDarkMode } = useSettingsStore();
+  const { initializeFromSettings } = useRulesStore();
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Register keyboard shortcuts
-  useAppShortcuts();
+  // Initialize settings
+  useEffect(() => {
+    // Initialize presets from persistent storage
+    initializeFromSettings();
+    
+    // Expose functions for keyboard shortcuts
+    useFileStore.getState().exposeKeyboardShortcutFunctions();
+    
+    // Reset file filter to prevent issues with stuck filter
+    useFileFilterStore.getState().resetFilter();
+    
+    setIsInitialized(true);
+  }, [initializeFromSettings]);
 
   // Apply the theme to the document
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
+    document.documentElement.dataset.theme = darkMode ? 'dark' : 'cyberpunk';
+  }, [darkMode]);
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'cyberpunk' : 'dark';
-    setTheme(newTheme);
-  };
+  // Wait until initialization is complete
+  if (!isInitialized) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
+    <ErrorProvider>
+      <ErrorBoundary>
+        <AppContent darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      </ErrorBoundary>
+    </ErrorProvider>
+  );
+}
+
+// Extract the main content to a separate component to use hooks within ErrorProvider
+function AppContent({ darkMode, toggleDarkMode }: { darkMode: boolean; toggleDarkMode: () => void }) {
+  // Reset file filter on app load
+  useEffect(() => {
+    // Reset filter to "All Files" when app loads
+    useFileFilterStore.getState().resetFilter();
+  }, []);
+  
+  // Register keyboard shortcuts via the wrapper component
+  return (
     <Layout>
+      {/* This component uses the ErrorContext */}
+      <KeyboardShortcutsWrapper />
+      
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">
           <span className="logo-part">re</span>
           <span className="logo-main">Namer</span>
           <span className="logo-x">X</span>
         </h1>
-        <button 
-          onClick={toggleTheme}
-          className={`flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm theme-toggle-button ${theme === 'cyberpunk' ? 'dark-mode' : ''}`}
-        >
-          {theme === 'dark' ? (
-            <span>⚡ Cyberpunk Theme</span>
-          ) : (
-            <span>🌙 Dark Theme</span>
-          )}
-        </button>
+        <div className="flex items-center space-x-2">
+          <UndoManager />
+          <ShortcutHelp />
+          <button 
+            onClick={toggleDarkMode}
+            className={`flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm theme-toggle-button ${!darkMode ? 'dark-mode' : ''}`}
+          >
+            {darkMode ? (
+              <span>⚡ Cyberpunk Theme</span>
+            ) : (
+              <span>🌙 Dark Theme</span>
+            )}
+          </button>
+        </div>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
           <h2 className="text-xl font-bold mb-4">Files</h2>
-          <FileSelector />
-          <FileList />
-          <PreviewPanel />
+          <ErrorBoundary>
+            <FileSelector />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <FileList />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <PreviewPanel />
+          </ErrorBoundary>
         </div>
         <div>
           <h2 className="text-xl font-bold mb-4">Renaming Rules</h2>
-          <RulesContainer />
+          <ErrorBoundary>
+            <RulesContainer />
+          </ErrorBoundary>
         </div>
       </div>
     </Layout>

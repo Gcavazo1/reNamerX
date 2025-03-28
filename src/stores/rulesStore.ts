@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useHistoryStore } from './historyStore';
 
 export type CaseType = 'pascalCase' | 'camelCase' | 'snakeCase' | 'kebabCase' | 'upperCase' | 'lowerCase';
 export type NumberFormat = 'single' | 'double' | 'triple' | 'custom';
@@ -66,7 +67,6 @@ export interface IRules {
       useExif: boolean;
       useID3: boolean;
       pattern: string;
-      values?: Record<string, string>;
     };
   };
 }
@@ -95,6 +95,13 @@ export interface IRulesStore {
   updatePresetName: (presetId: string, name: string) => void;
   
   resetRules: () => void;
+  
+  // Undo/Redo specific methods
+  setRules: (rules: IRules) => void;
+  undoRuleChange: (oldRules: IRules) => void;
+  
+  // Settings initialization
+  initializeFromSettings: () => void;
 }
 
 // Default rules configuration
@@ -150,12 +157,14 @@ const DEFAULT_RULES: IRules = {
   },
 };
 
-export const useRulesStore = create<IRulesStore>((set) => ({
+export const useRulesStore = create<IRulesStore>((set, get) => ({
   rules: { ...DEFAULT_RULES },
   presets: [],
   activePresetId: null,
   
-  updateCaseTransformation: (enabled, type) => 
+  updateCaseTransformation: (enabled, type) => {
+    const previousRules = { ...get().rules };
+    
     set((state) => ({
       rules: {
         ...state.rules,
@@ -165,9 +174,19 @@ export const useRulesStore = create<IRulesStore>((set) => ({
           ...(type ? { type } : {}),
         },
       },
-    })),
+    }));
+    
+    // Generate a descriptive message
+    let description = enabled 
+      ? `Changed case transformation to ${type || get().rules.caseTransformation.type}`
+      : `Turned off case transformation`;
+    
+    // Remove reference to old history system
+  },
   
-  updateNumbering: (enabled, options) => 
+  updateNumbering: (enabled, options) => {
+    const previousRules = { ...get().rules };
+    
     set((state) => ({
       rules: {
         ...state.rules,
@@ -177,9 +196,34 @@ export const useRulesStore = create<IRulesStore>((set) => ({
           ...(options || {}),
         },
       },
-    })),
+    }));
+    
+    // Generate a descriptive message
+    let description = "";
+    if (!enabled) {
+      description = "Disabled numbering";
+    } else if (options) {
+      if (options.start !== undefined) {
+        description = `Set numbering to start at ${options.start}`;
+      } else if (options.increment !== undefined) {
+        description = `Set numbering increment to ${options.increment}`;
+      } else if (options.format !== undefined) {
+        description = `Changed numbering format to ${options.format}`;
+      } else if (options.position !== undefined) {
+        description = `Changed numbering position to ${options.position}`;
+      } else {
+        description = "Updated numbering settings";
+      }
+    } else {
+      description = "Enabled numbering";
+    }
+    
+    // Remove reference to old history system
+  },
   
-  updateTextOperation: (operationType, enabled, options) => 
+  updateTextOperation: (operationType, enabled, options) => {
+    const previousRules = { ...get().rules };
+    
     set((state) => ({
       rules: {
         ...state.rules,
@@ -192,9 +236,38 @@ export const useRulesStore = create<IRulesStore>((set) => ({
           },
         },
       },
-    })),
+    }));
+    
+    // Generate a descriptive message
+    let description = "";
+    if (!enabled) {
+      description = `Disabled ${operationType} operation`;
+    } else if (options) {
+      if (operationType === 'findReplace') {
+        if (options.find !== undefined) {
+          description = `Updated find pattern for find & replace`;
+        } else if (options.replace !== undefined) {
+          description = `Updated replace text for find & replace`;
+        } else {
+          description = `Updated find & replace settings`;
+        }
+      } else if (operationType === 'prefix') {
+        description = `Updated prefix text`;
+      } else if (operationType === 'suffix') {
+        description = `Updated suffix text`;
+      } else if (operationType === 'removeChars') {
+        description = `Updated character removal settings`;
+      }
+    } else {
+      description = `Enabled ${operationType} operation`;
+    }
+    
+    // Remove reference to old history system
+  },
   
-  updateAdvancedOption: (optionType, enabled, options) => 
+  updateAdvancedOption: (optionType, enabled, options) => {
+    const previousRules = { ...get().rules };
+    
     set((state) => ({
       rules: {
         ...state.rules,
@@ -207,7 +280,24 @@ export const useRulesStore = create<IRulesStore>((set) => ({
           },
         },
       },
-    })),
+    }));
+    
+    // Generate a descriptive message
+    let description = "";
+    if (!enabled) {
+      description = `Disabled advanced ${optionType} option`;
+    } else if (options) {
+      if (optionType === 'dateStamp') {
+        description = `Updated date stamp settings`;
+      } else if (optionType === 'metadata') {
+        description = `Updated metadata settings`;
+      }
+    } else {
+      description = `Enabled advanced ${optionType} option`;
+    }
+    
+    // Remove reference to old history system
+  },
   
   savePreset: (name) => 
     set((state) => {
@@ -216,8 +306,18 @@ export const useRulesStore = create<IRulesStore>((set) => ({
         name,
         rules: { ...state.rules },
       };
+      const newPresets = [...state.presets, newPreset];
+      
+      // Save to localStorage
+      try {
+        localStorage.setItem('renamer_presets', JSON.stringify(newPresets));
+        localStorage.setItem('renamer_active_preset', newPreset.id);
+      } catch (error) {
+        console.error('Error saving preset:', error);
+      }
+      
       return {
-        presets: [...state.presets, newPreset],
+        presets: newPresets,
         activePresetId: newPreset.id,
       };
     }),
@@ -226,6 +326,14 @@ export const useRulesStore = create<IRulesStore>((set) => ({
     set((state) => {
       const preset = state.presets.find(p => p.id === presetId);
       if (!preset) return state;
+      
+      // Save active preset to localStorage
+      try {
+        localStorage.setItem('renamer_active_preset', presetId);
+      } catch (error) {
+        console.error('Error saving active preset:', error);
+      }
+      
       return {
         rules: { ...preset.rules },
         activePresetId: presetId,
@@ -233,21 +341,86 @@ export const useRulesStore = create<IRulesStore>((set) => ({
     }),
   
   deletePreset: (presetId) => 
-    set((state) => ({
-      presets: state.presets.filter(p => p.id !== presetId),
-      activePresetId: state.activePresetId === presetId ? null : state.activePresetId,
-    })),
+    set((state) => {
+      const newPresets = state.presets.filter(p => p.id !== presetId);
+      const newActivePresetId = state.activePresetId === presetId ? null : state.activePresetId;
+      
+      // Save to localStorage
+      try {
+        localStorage.setItem('renamer_presets', JSON.stringify(newPresets));
+        if (newActivePresetId) {
+          localStorage.setItem('renamer_active_preset', newActivePresetId);
+        } else {
+          localStorage.removeItem('renamer_active_preset');
+        }
+      } catch (error) {
+        console.error('Error saving presets after deletion:', error);
+      }
+      
+      return {
+        presets: newPresets,
+        activePresetId: newActivePresetId,
+      };
+    }),
   
   updatePresetName: (presetId, name) => 
-    set((state) => ({
-      presets: state.presets.map(p => 
+    set((state) => {
+      const newPresets = state.presets.map(p => 
         p.id === presetId ? { ...p, name } : p
-      ),
-    })),
+      );
+      
+      // Save to localStorage
+      try {
+        localStorage.setItem('renamer_presets', JSON.stringify(newPresets));
+      } catch (error) {
+        console.error('Error saving preset name update:', error);
+      }
+      
+      return {
+        presets: newPresets,
+      };
+    }),
+    
+  // Settings initialization
+  initializeFromSettings: () => {
+    try {
+      // Load saved presets from localStorage
+      const savedPresets = localStorage.getItem('renamer_presets');
+      if (savedPresets) {
+        const parsedPresets = JSON.parse(savedPresets);
+        set({ presets: parsedPresets });
+        
+        // If there was an active preset, load it
+        const activePresetId = localStorage.getItem('renamer_active_preset');
+        if (activePresetId) {
+          const preset = parsedPresets.find((p: IPreset) => p.id === activePresetId);
+          if (preset) {
+            set({ 
+              rules: { ...preset.rules },
+              activePresetId: preset.id 
+            });
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error initializing rules from settings:', error);
+    }
+  },
   
   resetRules: () => 
     set({
       rules: { ...DEFAULT_RULES },
       activePresetId: null,
+    }),
+    
+  // Undo/Redo specific methods
+  setRules: (rules) => 
+    set({
+      rules: { ...rules }
+    }),
+    
+  undoRuleChange: (oldRules) =>
+    set({
+      rules: { ...oldRules }
     }),
 })); 

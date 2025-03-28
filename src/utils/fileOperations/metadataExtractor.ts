@@ -1,5 +1,6 @@
-import { invoke } from '@tauri-apps/api';
+import { invoke } from '@tauri-apps/api/core';
 import { IFile } from '../../types/file';
+import { FileSystemError } from '../api/fileSystemError';
 
 interface MetadataResult {
   success: boolean;
@@ -21,21 +22,23 @@ export async function extractMetadata(
   useExif: boolean
 ): Promise<MetadataResult> {
   try {
-    // Call the Rust backend to extract metadata
+    // Call the Rust backend to extract metadata with camelCase parameters
     const result = await invoke<MetadataResult>('extract_metadata', {
-      path: file.path,
+      filePath: file.path,
       useExif,
       useID3
     });
     
     return result;
   } catch (error) {
-    console.error('Error extracting metadata:', error);
-    return {
-      success: false,
-      metadata: {},
-      error: error instanceof Error ? error.message : String(error)
-    };
+    if (error instanceof FileSystemError) {
+      throw error;
+    }
+    throw new FileSystemError(
+      `Failed to extract metadata from ${file.name}: ${error instanceof Error ? error.message : String(error)}`,
+      'METADATA_EXTRACTION_ERROR',
+      error instanceof Error ? error : undefined
+    );
   }
 }
 

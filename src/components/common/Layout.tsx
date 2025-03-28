@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import LoadingOverlay from './LoadingOverlay';
-import ShortcutHelp from './ShortcutHelp';
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,7 +12,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <header className="bg-white dark:bg-gray-800 shadow">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <h1 className="text-xl font-bold">File Rename Tool</h1>
-          <ShortcutHelp />
         </div>
       </header>
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">

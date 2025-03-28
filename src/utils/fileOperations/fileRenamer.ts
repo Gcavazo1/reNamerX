@@ -4,6 +4,8 @@ import { transformCase } from "../formatters/caseFormatters";
 import { formatNumber, getNextNumber, insertNumberAtPosition } from "../formatters/numberFormatters";
 import { sanitizeFileName, isValidFileName } from "../validators/fileNameValidator";
 import { getFileNameWithoutExtension, getFileExtension } from "../formatters/caseFormatters";
+import { FileSystemError, FileSystemErrorType } from "../api/fileSystemError";
+import { invoke } from '@tauri-apps/api/core';
 
 /**
  * Interface for renaming operation results
@@ -13,6 +15,14 @@ export interface IRenameResult {
   error?: string;
   originalPath: string;
   newPath: string;
+}
+
+/**
+ * Simple result for rename operations
+ */
+export interface RenameResult {
+  success: boolean;
+  error?: string;
 }
 
 /**
@@ -143,15 +153,16 @@ export const applyRules = (filename: string, rules: IRules, index: number = 0): 
   
   // Apply numbering
   if (rules.numbering.enabled) {
-    // Extract existing number if present
+    // Extract existing number if present and remove it if numbering is enabled
     const { baseName, number } = extractNumberFromFileName(result);
     
-    // If we want to replace existing numbers, use the base name
+    // If we found a number, use the base name without the number
     if (number !== null) {
       result = baseName;
     }
     
-    const num = getNextNumber(index, rules.numbering.start, rules.numbering.increment);
+    // Use the index directly as passed, ensuring we start at exactly the user's chosen number
+    const num = rules.numbering.start + (index * rules.numbering.increment);
     const formattedNum = formatNumber(
       num, 
       rules.numbering.format, 
@@ -211,35 +222,192 @@ export const applyRules = (filename: string, rules: IRules, index: number = 0): 
 };
 
 /**
- * Generates preview of renamed files
+ * Generate preview of the renamed files based on the current rules
+ * Performance optimized version
  */
-export const generatePreview = (
-  files: IFile[],
-  rules: IRules
-): IPreviewResult[] => {
-  console.log("Generating preview with rules:", rules);
-  
-  return files.map((file, index) => {
-    try {
-      const newName = applyRules(file.name, rules, index);
-      const isValid = isValidFileName(newName);
-      
-      return {
-        fileId: file.id,
-        originalName: file.name,
-        newName,
-        isValid,
-        error: isValid ? undefined : 'Invalid file name'
-      };
-    } catch (error) {
-      console.error(`Error generating preview for ${file.name}:`, error);
-      return {
-        fileId: file.id,
-        originalName: file.name,
-        newName: file.name,
-        isValid: false,
-        error: 'Error generating preview'
-      };
+export function generatePreview(files: IFile[], rules: IRules): IPreviewResult[] {
+  try {
+    const startTime = performance.now();
+    
+    // Early return for empty files
+    if (files.length === 0) {
+      return [];
     }
-  });
+    
+    // Process files in a single pass for better performance
+    const results = files.map((file, index) => {
+      try {
+        // Use the global index across the entire set of files
+        // This ensures numbering is continuous even when processing in batches
+        const newName = applyRules(file.name, rules, index);
+        const isValid = isValidFileName(newName);
+        
+        return {
+          fileId: file.id,
+          originalName: file.name,
+          newName,
+          isValid,
+          error: isValid ? undefined : 'Invalid file name'
+        };
+      } catch (error) {
+        return {
+          fileId: file.id,
+          originalName: file.name,
+          newName: file.name,
+          isValid: false,
+          error: 'Error generating preview'
+        };
+      }
+    });
+    
+    const endTime = performance.now();
+    
+    return results;
+  } catch (error) {
+    throw error;
+  }
+}
+
+/**
+ * Apply text replacement with optional regex support
+ */
+function applyTextReplacement(
+  text: string,
+  find: string,
+  replace: string,
+  useRegex: boolean
+): string {
+  if (!find) return text;
+
+  try {
+    if (useRegex) {
+      const regex = new RegExp(find, 'g');
+      return text.replace(regex, replace);
+    }
+    // Escape special regex characters if not using regex mode
+    return text.replace(new RegExp(find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replace);
+  } catch (error) {
+    console.error('Error in text replacement:', error);
+    // Return original text on error
+    return text;
+  }
+}
+
+// Helper functions for case transformations
+function toCamelCase(str: string): string {
+  return str
+    .replace(/[^a-zA-Z0-9]+(.)/g, (_, char) => char.toUpperCase())
+    .replace(/^[A-Z]/, c => c.toLowerCase());
+}
+
+function toPascalCase(str: string): string {
+  const camel = toCamelCase(str);
+  return camel.charAt(0).toUpperCase() + camel.slice(1);
+}
+
+function toSnakeCase(str: string): string {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1_$2')
+    .replace(/[\s-]+/g, '_')
+    .toLowerCase();
+}
+
+function toKebabCase(str: string): string {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase();
+}
+
+export async function renameFile(
+  oldPath: string,
+  newPath: string
+): Promise<RenameResult> {
+  try {
+    // Use camelCase parameter names consistently
+    await invoke('rename_file', {
+      oldPath,
+      newPath
+    });
+    
+    return { success: true };
+  } catch (error) {
+    if (error instanceof FileSystemError) {
+      throw error;
+    }
+    throw new FileSystemError(
+      `Failed to rename file: ${error instanceof Error ? error.message : String(error)}`,
+      'RENAME_ERROR',
+      error instanceof Error ? error : undefined
+    );
+  }
+}
+
+// Function that applies find and replace text transformation
+export const applyReplaceRule = (text: string, find: string, replace: string, useRegex: boolean = false): string => {
+  if (!find) return text;
+
+  let result = text;
+
+  try {
+    if (useRegex) {
+      const regex = new RegExp(find, 'g');
+      result = result.replace(regex, replace);
+    } else {
+      result = result.split(find).join(replace);
+    }
+  } catch (error) {
+    console.error('Invalid regex pattern:', error);
+    throw new Error(`Failed to apply pattern: ${error instanceof Error ? error.message : String(error)}`);
+  }
+
+  return result;
+};
+
+// Apply case transformation to text
+export const applyCaseTransformation = (text: string, transformationType: string): string => {
+  if (!text) return text;
+
+  try {
+    switch (transformationType) {
+      case 'uppercase':
+        return text.toUpperCase();
+      case 'lowercase':
+        return text.toLowerCase();
+      case 'capitalize':
+        return text.split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+          .join(' ');
+      case 'title_case':
+        return text.split(' ')
+          .map(word => {
+            // Don't capitalize small words in title case
+            if (word.length <= 2) return word.toLowerCase();
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+          })
+          .join(' ');
+      case 'sentence_case':
+        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+      case 'camel_case':
+        return text.split(' ')
+          .map((word, index) => {
+            if (index === 0) return word.toLowerCase();
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+          })
+          .join('');
+      case 'pascal_case':
+        return text.split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+          .join('');
+      case 'snake_case':
+        return text.toLowerCase().replace(/\s+/g, '_');
+      case 'kebab_case':
+        return text.toLowerCase().replace(/\s+/g, '-');
+      default:
+        return text;
+    }
+  } catch (error) {
+    console.error('Error in text replacement:', error);
+    return text; // Return original if transformation fails
+  }
 }; 

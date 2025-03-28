@@ -1,24 +1,41 @@
 import React, { useState } from 'react';
+import { KEYBOARD_SHORTCUTS } from '../../utils/keyboardShortcuts';
 
 interface ShortcutHelpProps {
   className?: string;
 }
 
-interface ShortcutItem {
-  key: string;
-  description: string;
-  modifiers?: {
-    ctrl?: boolean;
-    shift?: boolean;
-    alt?: boolean;
-  };
+interface ShortcutCategory {
+  name: string;
+  shortcuts: typeof KEYBOARD_SHORTCUTS;
 }
 
-const shortcuts: ShortcutItem[] = [
-  { key: 'A', description: 'Select all files', modifiers: { ctrl: true } },
-  { key: 'P', description: 'Toggle preview mode', modifiers: { ctrl: true } },
-  { key: 'C', description: 'Clear all files', modifiers: { ctrl: true, shift: true } },
-  { key: 'Escape', description: 'Deselect all files' },
+// Group shortcuts by category for better organization
+const shortcutCategories: ShortcutCategory[] = [
+  {
+    name: 'File Operations',
+    shortcuts: KEYBOARD_SHORTCUTS.filter(s => 
+      ['A', 'N', 'O', 'D', 'C', 'Escape'].includes(s.key)
+    )
+  },
+  {
+    name: 'Preview & Rename',
+    shortcuts: KEYBOARD_SHORTCUTS.filter(s => 
+      ['P', 'R'].includes(s.key)
+    )
+  },
+  {
+    name: 'Rules & Presets',
+    shortcuts: KEYBOARD_SHORTCUTS.filter(s => 
+      ['S', 'Z', 'N'].includes(s.key) && (s.modifiers?.alt || s.modifiers?.ctrl)
+    )
+  },
+  {
+    name: 'UI & Navigation',
+    shortcuts: KEYBOARD_SHORTCUTS.filter(s => 
+      ['T', 'H', '/'].includes(s.key)
+    )
+  }
 ];
 
 const ShortcutHelp: React.FC<ShortcutHelpProps> = ({ className = '' }) => {
@@ -41,7 +58,7 @@ const ShortcutHelp: React.FC<ShortcutHelpProps> = ({ className = '' }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 z-50">
+        <div className="absolute right-0 top-full mt-2 w-96 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 z-50 max-h-[80vh] overflow-y-auto">
           <div className="flex justify-between items-center mb-3">
             <h3 className="font-medium">Keyboard Shortcuts</h3>
             <button
@@ -54,34 +71,48 @@ const ShortcutHelp: React.FC<ShortcutHelpProps> = ({ className = '' }) => {
             </button>
           </div>
           
-          <div className="space-y-3">
-            {shortcuts.map((shortcut, index) => (
-              <div key={index} className="flex justify-between items-center">
-                <span className="text-gray-600 dark:text-gray-300">
-                  {shortcut.description}
-                </span>
-                <div className="flex space-x-1">
-                  {shortcut.modifiers?.ctrl && (
-                    <kbd className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
-                      Ctrl
-                    </kbd>
-                  )}
-                  {shortcut.modifiers?.shift && (
-                    <kbd className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
-                      Shift
-                    </kbd>
-                  )}
-                  {shortcut.modifiers?.alt && (
-                    <kbd className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
-                      Alt
-                    </kbd>
-                  )}
-                  <kbd className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
-                    {shortcut.key}
-                  </kbd>
+          <div className="space-y-4">
+            {shortcutCategories.map((category, catIndex) => (
+              <div key={catIndex} className="space-y-2">
+                <h4 className="text-sm font-medium text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 pb-1">
+                  {category.name}
+                </h4>
+                
+                <div className="space-y-2">
+                  {category.shortcuts.map((shortcut, index) => (
+                    <div key={index} className="flex justify-between items-center">
+                      <span className="text-gray-600 dark:text-gray-300 text-sm">
+                        {shortcut.description}
+                      </span>
+                      <div className="flex space-x-1">
+                        {shortcut.modifiers?.ctrl && (
+                          <kbd className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                            Ctrl
+                          </kbd>
+                        )}
+                        {shortcut.modifiers?.shift && (
+                          <kbd className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                            Shift
+                          </kbd>
+                        )}
+                        {shortcut.modifiers?.alt && (
+                          <kbd className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                            Alt
+                          </kbd>
+                        )}
+                        <kbd className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                          {shortcut.key}
+                        </kbd>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
+          </div>
+          
+          <div className="mt-4 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-2">
+            Press <kbd className="px-1 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">Ctrl</kbd> + <kbd className="px-1 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">H</kbd> to show these shortcuts anytime
           </div>
         </div>
       )}

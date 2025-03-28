@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRulesStore, IPreset } from '../../stores/rulesStore';
 
 const PresetManager: React.FC = () => {
@@ -6,6 +6,21 @@ const PresetManager: React.FC = () => {
   const [newPresetName, setNewPresetName] = useState<string>('');
   const [editMode, setEditMode] = useState<string | null>(null);
   const [editedName, setEditedName] = useState<string>('');
+
+  // Expose save preset function to window object for keyboard shortcuts
+  useEffect(() => {
+    (window as any).__savePreset = (name: string) => {
+      if (name && name.trim()) {
+        savePreset(name.trim());
+        return true;
+      }
+      return false;
+    };
+    
+    return () => {
+      delete (window as any).__savePreset;
+    };
+  }, [savePreset]);
 
   const handleSavePreset = () => {
     if (newPresetName.trim()) {

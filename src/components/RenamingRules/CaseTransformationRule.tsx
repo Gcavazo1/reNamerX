@@ -7,12 +7,12 @@ const CaseTransformationRule: React.FC = () => {
   const { enabled, type } = rules.caseTransformation;
 
   const handleToggle = () => {
-    updateCaseTransformation({ enabled: !enabled });
+    updateCaseTransformation(!enabled);
   };
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newType = e.target.value as CaseType;
-    updateCaseTransformation({ type: newType });
+    updateCaseTransformation(enabled, newType);
   };
 
   const caseTipContent = (

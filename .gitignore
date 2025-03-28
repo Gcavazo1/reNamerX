@@ -7,18 +7,56 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build files
+dist/
+dist-ssr/
+build/
 *.local
+
+# Tauri build artifacts
+src-tauri/target/
+src-tauri/WixTools/
+src-tauri/Cargo.lock
+
+# Large binaries
+*.exe
+!src-tauri/target/release/bundle/**/*.exe
+*.msi
+!src-tauri/target/release/bundle/**/*.msi
+*.dmg
+*.AppImage
+*.deb
+*.rpm
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+!.vscode/settings.json
+!.vscode/tasks.json
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing
+/coverage
+
+# Temporary files
+.tmp/
+.temp/
+.cache/

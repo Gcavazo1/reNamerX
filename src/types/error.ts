@@ -1,0 +1,1 @@
+export type ErrorSeverity = 'error' | 'warning' | 'info' | 'success'; 

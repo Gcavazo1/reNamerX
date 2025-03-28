@@ -1,23 +1,53 @@
 import React, { useState } from 'react';
 import { useFileStore } from '../../stores/fileStore';
+import { useSettingsStore } from '../../stores/settingsStore';
 import { selectFiles, selectDirectory } from '../../utils/api/fileSystemApi';
+import { FileSystemError } from '../../utils/api/fileSystemError';
 import DirectoryBrowser from './DirectoryBrowser';
+import DirectoryHistory from './DirectoryHistory';
 import { IFile } from '../../types/file';
+import { useError } from '../../context/ErrorContext';
+import { useFileFilterStore } from '../../stores/fileFilterStore';
 
 const FileSelector: React.FC = () => {
   const { addFiles, setProcessing } = useFileStore();
+  const { addRecentDirectory } = useSettingsStore();
+  const { resetFilter } = useFileFilterStore();
+  const { handleError } = useError();
   const [showDirectoryBrowser, setShowDirectoryBrowser] = useState<boolean>(false);
   const [selectedDirectoryPath, setSelectedDirectoryPath] = useState<string | null>(null);
 
   const handleBrowseFiles = async () => {
     try {
       setProcessing(true);
+      // Reset filter when selecting new files
+      resetFilter();
       const selectedFiles = await selectFiles();
       if (selectedFiles.length > 0) {
+        // Extract directory path from the first file and save to history
+        const firstFile = selectedFiles[0];
+        const lastSeparatorIndex = Math.max(
+          firstFile.path.lastIndexOf('/'), 
+          firstFile.path.lastIndexOf('\\')
+        );
+        
+        if (lastSeparatorIndex > 0) {
+          const dirPath = firstFile.path.substring(0, lastSeparatorIndex);
+          addRecentDirectory(dirPath);
+        }
+        
         addFiles(selectedFiles);
       }
     } catch (error) {
-      alert(`Failed to select files: ${error instanceof Error ? error.message : String(error)}`);
+      if (error instanceof FileSystemError) {
+        handleError(error.message, 'warning', error.originalError?.stack);
+      } else {
+        handleError(
+          `Failed to select files: ${error instanceof Error ? error.message : String(error)}`,
+          'error',
+          error instanceof Error ? error.stack : undefined
+        );
+      }
     } finally {
       setProcessing(false);
     }
@@ -26,22 +56,42 @@ const FileSelector: React.FC = () => {
   const handleBrowseDirectory = async () => {
     try {
       setProcessing(true);
-      const dirPath = await selectDirectory();
+      // Reset filter when selecting new directory
+      resetFilter();
+      const directoryPath = await selectDirectory();
       
-      if (dirPath) {
-        setSelectedDirectoryPath(dirPath);
+      if (directoryPath) {
+        setSelectedDirectoryPath(directoryPath);
         setShowDirectoryBrowser(true);
+        addRecentDirectory(directoryPath);
       }
     } catch (error) {
-      alert(`Failed to select directory: ${error instanceof Error ? error.message : String(error)}`);
+      if (error instanceof FileSystemError) {
+        handleError(error.message, 'warning', error.originalError?.stack);
+      } else {
+        handleError(
+          `Failed to select directory: ${error instanceof Error ? error.message : String(error)}`,
+          'error',
+          error instanceof Error ? error.stack : undefined
+        );
+      }
     } finally {
       setProcessing(false);
     }
   };
 
   const handleDirectoryFilesSelected = (files: IFile[]) => {
-    if (files.length > 0) {
-      addFiles(files);
+    // Ensure files is an array before filtering
+    if (!Array.isArray(files)) {
+      console.error('Expected files to be an array but got:', files);
+      return;
+    }
+    
+    // Filter to only include non-directory files
+    const nonDirectoryFiles = files.filter(file => !file.isDirectory);
+    
+    if (nonDirectoryFiles.length > 0) {
+      addFiles(nonDirectoryFiles);
     }
     setShowDirectoryBrowser(false);
   };
@@ -67,7 +117,7 @@ const FileSelector: React.FC = () => {
             Select files or folders to rename
           </p>
            
-          <div className="flex space-x-4">
+          <div className="flex flex-wrap justify-center space-x-4 mb-4">
             <button
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               onClick={handleBrowseFiles}
@@ -81,6 +131,8 @@ const FileSelector: React.FC = () => {
               Select Folder
             </button>
           </div>
+          
+          <DirectoryHistory />
         </div>
       </div>
 

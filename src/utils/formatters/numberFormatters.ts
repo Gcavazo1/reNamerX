@@ -32,12 +32,16 @@ export const formatNumber = (
 
 /**
  * Gets the next number in a sequence
+ * index starts at 0 for the first file, so we don't add increment
+ * to the start value for the first file
  */
 export const getNextNumber = (
   index: number,
   start: number,
   increment: number
 ): number => {
+  // For the first file (index 0), return the starting number directly
+  // For subsequent files, apply the increment
   return start + (index * increment);
 };
 

@@ -270,6 +270,7 @@ const NumberingRule: React.FC = () => {
             <p className="text-gray-600 dark:text-gray-400">Original: <span className="text-gray-800 dark:text-gray-200">example.txt</span></p>
             <p className="text-gray-600 dark:text-gray-400">Result: <span className="text-green-600 dark:text-green-400">{getExample()}</span></p>
             <p className="text-gray-600 dark:text-gray-400 mt-1">Sequence: <span className="text-green-600 dark:text-green-400">{formatPreviewNumber(start)}, {formatPreviewNumber(start + increment)}, {formatPreviewNumber(start + (increment * 2))}, ...</span></p>
+            <p className="text-gray-600 dark:text-gray-400 mt-1 text-xs">First file will use exactly the "Start from" number.</p>
           </div>
         </div>
       </div>

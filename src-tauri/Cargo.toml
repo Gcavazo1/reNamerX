@@ -1,8 +1,8 @@
 [package]
 name = "file-rename-tool"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "reNamerX - A powerful desktop file batch renaming application"
+authors = ["Gabriel Cavazos (GigaCode)"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -18,10 +18,16 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2.0.0", features = [] }
 
 [dependencies]
+# Keep dependencies simple to avoid feature flag issues
 tauri = { version = "2.0.0", features = ["devtools"] }
 tauri-plugin-dialog = "2.0.0"
 tauri-plugin-fs = "2.0.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 uuid = { version = "1.4", features = ["v4"] }
+
+[features]
+# This feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
 
