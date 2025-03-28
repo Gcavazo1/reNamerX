@@ -47,6 +47,9 @@ export interface SettingsStore extends AppSettings {
   setMaxRecentDirectories: (max: number) => void;
   setAutoSelectNewFiles: (autoSelect: boolean) => void;
   
+  // Persistence
+  saveSettings: () => void;
+  
   // Reset all settings
   resetSettings: () => void;
 }
@@ -95,6 +98,19 @@ export const useSettingsStore = create<SettingsStore>()(
       setConfirmBeforeRename: (confirmBeforeRename) => set({ confirmBeforeRename }),
       setMaxRecentDirectories: (maxRecentDirectories) => set({ maxRecentDirectories }),
       setAutoSelectNewFiles: (autoSelectNewFiles) => set({ autoSelectNewFiles }),
+      
+      // Persistence
+      saveSettings: () => set(state => ({
+        darkMode: state.darkMode,
+        sidebarCollapsed: state.sidebarCollapsed,
+        recentDirectories: state.recentDirectories,
+        savedPresets: state.savedPresets,
+        lastActivePresetId: state.lastActivePresetId,
+        lastActiveFileFilter: state.lastActiveFileFilter,
+        confirmBeforeRename: state.confirmBeforeRename,
+        maxRecentDirectories: state.maxRecentDirectories,
+        autoSelectNewFiles: state.autoSelectNewFiles
+      })),
       
       // Reset all settings
       resetSettings: () => set(DEFAULT_SETTINGS),

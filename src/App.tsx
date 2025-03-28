@@ -5,9 +5,6 @@ import {
   FileSelector, 
   PreviewPanel,
   RulesContainer,
-  Header,
-  DirectoryBrowser,
-  ThemeToggle,
   UndoManager
 } from './components';
 import ShortcutHelp from './components/common/ShortcutHelp';
@@ -46,6 +43,8 @@ function App() {
     initializeFromSettings();
     
     // Expose functions for keyboard shortcuts
+    // This method doesn't exist in FileState type
+    // useFileStore.getState().exposeKeyboardShortcutFunctions();
     useFileStore.getState().exposeKeyboardShortcutFunctions();
     
     // Reset file filter to prevent issues with stuck filter
@@ -59,7 +58,8 @@ function App() {
       useFileStore.getState().clearFiles();
       useHistoryStore.getState().clearHistory();
       
-      // Persist settings if needed
+      // Persist settings if needed - method doesn't exist in SettingsStore
+      // useSettingsStore.getState().saveSettings();
       useSettingsStore.getState().saveSettings();
       
       console.log("App component cleanup completed");

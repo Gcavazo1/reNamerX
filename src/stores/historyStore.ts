@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useFileStore } from './fileStore';
 
 // Maximum number of operations to keep in history across all batches
 // This limits total memory usage if someone does many operations
@@ -17,14 +18,21 @@ export interface RenameRecord {
 export interface HistoryState {
   // Only store rename operations
   renameHistory: RenameRecord[];
+  redoStack: RenameRecord[][]; // Stack of operations that were undone for potential redo
   
   // Operations
   addRename: (renames: RenameRecord[]) => void;
   undoLastRename: () => RenameRecord[] | null;
+  redoLastUndo: () => RenameRecord[] | null;
   canUndo: () => boolean;
+  canRedo: () => boolean;
   clearHistory: () => void;
   trackFailedUndos: (failedIds: string[]) => void;
   getBatchSize: () => number;
+  
+  // Higher-level operations that handle the file system calls
+  undo: () => Promise<void>;
+  redo: () => Promise<void>;
   
   // Backward compatibility function - does nothing now
   addToHistory: () => void;
@@ -32,6 +40,7 @@ export interface HistoryState {
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
   renameHistory: [],
+  redoStack: [],
   
   // Add rename operations to history
   addRename: (renames) => set(state => {
@@ -39,16 +48,16 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     
     console.log(`Adding ${renames.length} renames to history`);
     
-    // Add to the beginning of the array (newest operations first)
-    // Store the complete batch, but limit total history size to prevent memory issues
+    // Adding new operations should clear the redo stack
     return {
-      renameHistory: [...renames, ...state.renameHistory].slice(0, MAX_HISTORY_LENGTH)
+      renameHistory: [...renames, ...state.renameHistory].slice(0, MAX_HISTORY_LENGTH),
+      redoStack: [] // Clear redo stack when new operations are performed
     };
   }),
   
   // Undo the last rename operation
   undoLastRename: () => {
-    const { renameHistory } = get();
+    const { renameHistory, redoStack } = get();
     
     if (renameHistory.length === 0) {
       console.log('No rename operations to undo');
@@ -59,13 +68,35 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     const firstTimestamp = renameHistory[0].timestamp;
     const renamesToUndo = renameHistory.filter(r => r.timestamp === firstTimestamp);
     
-    // Remove these renames from history
+    // Add these operations to the redo stack
     set({
-      renameHistory: renameHistory.slice(renamesToUndo.length)
+      renameHistory: renameHistory.slice(renamesToUndo.length),
+      redoStack: [...redoStack, renamesToUndo]
     });
     
     console.log(`Returning ${renamesToUndo.length} renames to undo`);
     return renamesToUndo;
+  },
+  
+  // Redo the last undone rename operation
+  redoLastUndo: () => {
+    const { redoStack } = get();
+    
+    if (redoStack.length === 0) {
+      console.log('No operations to redo');
+      return null;
+    }
+    
+    // Get the last batch of undone operations
+    const lastBatch = redoStack[redoStack.length - 1];
+    
+    // Remove this batch from the redo stack
+    set(state => ({
+      redoStack: state.redoStack.slice(0, state.redoStack.length - 1)
+    }));
+    
+    console.log(`Returning ${lastBatch.length} renames to redo`);
+    return lastBatch;
   },
   
   // Handle case where some undo operations failed - add them back to history
@@ -112,11 +143,72 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
   canUndo: () => {
     return get().renameHistory.length > 0;
   },
+
+  // Check if there are any operations to redo
+  canRedo: () => {
+    return get().redoStack.length > 0;
+  },
   
   // Clear all history
   clearHistory: () => set({
-    renameHistory: []
+    renameHistory: [],
+    redoStack: []
   }),
+  
+  // Higher-level undo operation that handles file system calls
+  undo: async () => {
+    console.log('Attempting to undo last operation');
+    const undoRenames = get().undoLastRename();
+    
+    if (!undoRenames || undoRenames.length === 0) {
+      console.log('Nothing to undo');
+      return;
+    }
+    
+    try {
+      // Reverse the renames by passing the undo records to the file store's undoRename function
+      await useFileStore.getState().undoRename(undoRenames);
+      console.log('Successfully undid renaming operation');
+    } catch (error) {
+      console.error('Error during undo operation:', error);
+      // If there's an error, add the failed renames back to history
+      get().addRename(undoRenames);
+    }
+  },
+  
+  // Higher-level redo operation that handles file system calls
+  redo: async () => {
+    console.log('Attempting to redo last undone operation');
+    const redoRenames = get().redoLastUndo();
+    
+    if (!redoRenames || redoRenames.length === 0) {
+      console.log('Nothing to redo');
+      return;
+    }
+    
+    try {
+      // To redo a rename, we need to swap old and new paths
+      const swappedRenames = redoRenames.map(record => ({
+        ...record,
+        oldPath: record.newPath,
+        oldName: record.newName,
+        newPath: record.oldPath,
+        newName: record.oldName,
+        timestamp: Date.now() // Update timestamp
+      }));
+      
+      // Add these renames back to history (they'll be removed again if the operation fails)
+      get().addRename(swappedRenames);
+      
+      // Call the file store to perform the renames
+      await useFileStore.getState().undoRename(swappedRenames);
+      console.log('Successfully redid renaming operation');
+    } catch (error) {
+      console.error('Error during redo operation:', error);
+      // If there's an error, remove the failed renames from history
+      get().undoLastRename();
+    }
+  },
   
   // Backward compatibility function - does nothing now
   addToHistory: () => {

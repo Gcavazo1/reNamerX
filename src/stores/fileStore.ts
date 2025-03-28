@@ -65,6 +65,9 @@ export interface FileState {
   redoRemoveFiles: (data: { files: IFile[] }) => void;
   undoUpdateFileName: (fileId: string, oldName: string) => void;
   redoUpdateFileName: (fileId: string, newName: string) => void;
+  
+  // Keyboard shortcut utility
+  exposeKeyboardShortcutFunctions: () => void;
 }
 
 // Add missing utility functions

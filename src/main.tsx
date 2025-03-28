@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import ErrorBoundary from "./components/common/ErrorBoundary";
-import { appWindow } from '@tauri-apps/api/window';
 
 // Custom error handler for critical root-level errors
 const handleRootError = (error: Error, errorInfo: React.ErrorInfo) => {
@@ -38,37 +37,10 @@ const rootFallback = (
   </div>
 );
 
-// AppWrapper component to handle window close events
-const AppWrapper = () => {
-  useEffect(() => {
-    // Set up proper window close handling
-    const unlisten = appWindow.onCloseRequested(async (event) => {
-      // Prevent the default close behavior
-      event.preventDefault();
-
-      // Perform cleanup actions here
-      console.log("Application is closing, performing cleanup...");
-      
-      // Allow a brief moment for cleanup
-      setTimeout(async () => {
-        // Then close the window
-        await appWindow.close();
-      }, 100);
-    });
-
-    return () => {
-      // Clean up the event listener when component unmounts
-      unlisten.then(removeListener => removeListener());
-    };
-  }, []);
-
-  return <App />;
-};
-
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary onError={handleRootError} fallback={rootFallback}>
-      <AppWrapper />
+      <App />
     </ErrorBoundary>
   </React.StrictMode>,
 );

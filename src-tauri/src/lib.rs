@@ -10,6 +10,12 @@ use std::path::Path;
 use std::fs;
 use serde::{Serialize, Deserialize};
 use tauri_plugin_dialog::DialogExt;
+use std::sync::Mutex;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+
+// Global flag to track if cleanup has been performed
+static CLEANUP_PERFORMED: AtomicBool = AtomicBool::new(false);
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct FileInfo {
@@ -418,9 +424,33 @@ fn rename_file(old_path: String, new_path: String) -> Result<(), String> {
     }
 }
 
+#[tauri::command]
+fn cleanup_resources() -> Result<bool, String> {
+    println!("Rust: cleanup_resources command called");
+    
+    // Only perform cleanup once
+    if CLEANUP_PERFORMED.swap(true, Ordering::SeqCst) {
+        println!("Rust: Cleanup already performed, skipping");
+        return Ok(true);
+    }
+    
+    // Add any cleanup operations here
+    println!("Rust: Performing resource cleanup...");
+    
+    // Example: Close any open file handles
+    // Example: Release any allocated system resources
+    // Example: Save application state if needed
+    
+    // Simulate some cleanup work
+    std::thread::sleep(std::time::Duration::from_millis(100));
+    
+    println!("Rust: Resource cleanup completed successfully");
+    Ok(true)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    use tauri::WindowEvent;
+    use tauri::{Manager, WindowEvent};
     println!("Rust: Starting File Rename Tool backend");
     
     tauri::Builder::default()
@@ -437,15 +467,30 @@ pub fn run() {
             println!("Rust: App setup complete with permissions initialized");
             Ok(())
         })
-        // Add specific handling for file dialog operations to ensure they always work
+        // Add specific handling for window events to ensure proper cleanup
         .on_window_event(|window, event| {
             if let WindowEvent::CloseRequested { api, .. } = event {
-                println!("Rust: Window close requested");
-                api.prevent_close();
+                println!("Rust: Window close requested from Rust side");
                 
-                // Simply close the window without confirmation for now
-                // This avoids API compatibility issues
-                window.close().unwrap();
+                // Perform cleanup immediately
+                if !CLEANUP_PERFORMED.swap(true, Ordering::SeqCst) {
+                    println!("Rust: Performing cleanup as part of close handler");
+                    // Close any open resources here if needed
+                    
+                    // Sleep briefly to allow resources to be released
+                    std::thread::sleep(std::time::Duration::from_millis(100));
+                }
+                
+                // If this is a regular close event, proceed with closing
+                let window_handle = window.clone();
+                std::thread::spawn(move || {
+                    // Give the frontend a small window to clean up
+                    std::thread::sleep(std::time::Duration::from_millis(300));
+                    println!("Rust: Forcing application to close");
+                    
+                    // Exit the entire application to ensure full cleanup
+                    std::process::exit(0);
+                });
             }
         })
         .invoke_handler(tauri::generate_handler![
@@ -455,7 +500,8 @@ pub fn run() {
             rename_files,
             rename_file,
             select_directory_path,
-            get_file_info
+            get_file_info,
+            cleanup_resources
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

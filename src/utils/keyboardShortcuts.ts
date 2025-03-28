@@ -14,7 +14,7 @@ interface ShortcutOptions {
 }
 
 // Keep track of all active handlers for cleanup
-const activeHandlers: { handler: (e: KeyboardEvent) => void; type: string }[] = [];
+const activeHandlers: { handler: EventListener; type: string }[] = [];
 
 /**
  * Unregister all keyboard shortcuts
@@ -44,16 +44,17 @@ export function useKeyboardShortcut(
   options: ShortcutOptions = {}
 ) {
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: Event) => {
+      const keyEvent = e as KeyboardEvent;
       const { ctrl = false, alt = false, shift = false } = options;
       
       if (
-        e.key.toLowerCase() === key.toLowerCase() &&
-        e.ctrlKey === ctrl &&
-        e.altKey === alt &&
-        e.shiftKey === shift
+        keyEvent.key.toLowerCase() === key.toLowerCase() &&
+        keyEvent.ctrlKey === ctrl &&
+        keyEvent.altKey === alt &&
+        keyEvent.shiftKey === shift
       ) {
-        handler(e);
+        handler(keyEvent);
       }
     };
     
@@ -109,8 +110,8 @@ export const KEYBOARD_SHORTCUTS = [
 export function useAppShortcuts() {
   const { 
     files, 
-    selectAllFiles, 
-    deselectAllFiles, 
+    selectAll: selectAllFiles, 
+    deselectAll: deselectAllFiles, 
     setPreviewMode, 
     previewMode,
     clearFiles,
@@ -126,7 +127,7 @@ export function useAppShortcuts() {
   
   const { toggleDarkMode } = useSettingsStore();
   
-  const { undo, redo } = useHistoryStore();
+  const historyStore = useHistoryStore();
   
   const { handleError } = useError();
   
@@ -163,53 +164,55 @@ export function useAppShortcuts() {
     console.log("Registering global keyboard shortcuts");
     
     // Global event handler for all keyboard shortcuts
-    const handleKeyDown = async (e: KeyboardEvent) => {
+    const handleKeyDown = async (e: Event) => {
+      const keyEvent = e as KeyboardEvent;
+      
       // Ignore shortcuts when typing in input fields, textareas, etc.
-      if (e.target instanceof HTMLInputElement || 
-          e.target instanceof HTMLTextAreaElement || 
-          e.target instanceof HTMLSelectElement) {
+      if (keyEvent.target instanceof HTMLInputElement || 
+          keyEvent.target instanceof HTMLTextAreaElement || 
+          keyEvent.target instanceof HTMLSelectElement) {
         return;
       }
       
       // File Operations
       
       // Select all files (Ctrl+A)
-      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'a') {
-        e.preventDefault();
+      if (keyEvent.ctrlKey && !keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key.toLowerCase() === 'a') {
+        keyEvent.preventDefault();
         selectAllFiles();
       }
       
       // Invert selection (Ctrl+N)
-      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'n') {
-        e.preventDefault();
+      if (keyEvent.ctrlKey && !keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key.toLowerCase() === 'n') {
+        keyEvent.preventDefault();
         invertSelection();
       }
       
       // Toggle preview mode (Ctrl+P)
-      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'p') {
-        e.preventDefault();
-        setPreviewMode(!previewMode);
+      if (keyEvent.ctrlKey && !keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key.toLowerCase() === 'p') {
+        keyEvent.preventDefault();
+        setPreviewMode(previewMode === 'list' ? 'side-by-side' : 'list');
       }
       
       // Clear selected files (Ctrl+K)
-      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
+      if (keyEvent.ctrlKey && !keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key.toLowerCase() === 'k') {
+        keyEvent.preventDefault();
         clearFiles();
       }
       
       // Deselect all files (Escape)
-      if (!e.ctrlKey && !e.shiftKey && !e.altKey && e.key === 'Escape') {
-        e.preventDefault();
+      if (!keyEvent.ctrlKey && !keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key === 'Escape') {
+        keyEvent.preventDefault();
         deselectAllFiles();
       }
       
       // Rule Operations
       
       // Save current rules as preset (Ctrl+Alt+S)
-      if (e.ctrlKey && !e.shiftKey && e.altKey && e.key.toLowerCase() === 's') {
-        e.preventDefault();
+      if (keyEvent.ctrlKey && !keyEvent.shiftKey && keyEvent.altKey && keyEvent.key.toLowerCase() === 's') {
+        keyEvent.preventDefault();
         try {
-          await savePreset();
+          await savePreset('Quick Save');
         } catch (e) {
           handleError(
             'Failed to save preset',
@@ -222,36 +225,38 @@ export function useAppShortcuts() {
       // UI Toggles
       
       // Toggle dark/light theme (Ctrl+Shift+T)
-      if (e.ctrlKey && e.shiftKey && !e.altKey && e.key.toLowerCase() === 't') {
-        e.preventDefault();
+      if (keyEvent.ctrlKey && keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key.toLowerCase() === 't') {
+        keyEvent.preventDefault();
         toggleDarkMode();
       }
       
       // Show keyboard shortcuts (Ctrl+H)
-      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'h') {
-        e.preventDefault();
+      if (keyEvent.ctrlKey && !keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key.toLowerCase() === 'h') {
+        keyEvent.preventDefault();
         showShortcutHelp();
       }
       
       // Focus search box (Ctrl+/)
-      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key === '/') {
-        e.preventDefault();
+      if (keyEvent.ctrlKey && !keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key === '/') {
+        keyEvent.preventDefault();
         focusSearchBox();
       }
       
       // History operations
       
       // Undo (Ctrl+Z)
-      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'z') {
-        e.preventDefault();
-        undo();
+      if (keyEvent.ctrlKey && !keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key.toLowerCase() === 'z') {
+        keyEvent.preventDefault();
+        console.log("Ctrl+Z pressed - triggering undo");
+        await historyStore.undo();
       }
       
       // Redo (Ctrl+Y or Ctrl+Shift+Z)
-      if ((e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'y') ||
-          (e.ctrlKey && e.shiftKey && !e.altKey && e.key.toLowerCase() === 'z')) {
-        e.preventDefault();
-        redo();
+      if ((keyEvent.ctrlKey && !keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key.toLowerCase() === 'y') ||
+          (keyEvent.ctrlKey && keyEvent.shiftKey && !keyEvent.altKey && keyEvent.key.toLowerCase() === 'z')) {
+        keyEvent.preventDefault();
+        console.log("Redo shortcut pressed - triggering redo");
+        await historyStore.redo();
       }
     };
     
@@ -284,8 +289,7 @@ export function useAppShortcuts() {
     rules, 
     savePreset,
     toggleDarkMode,
-    undo,
-    redo,
+    historyStore,
     handleError
   ]);
 } 
