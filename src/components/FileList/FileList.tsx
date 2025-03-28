@@ -27,9 +27,9 @@ const Row = React.memo(({ data, index, style }: ListChildComponentProps<RowData>
       ${data.selectedFiles.includes(file.id) 
         ? 'bg-blue-50 dark:bg-blue-900/20' 
         : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
-      } cursor-pointer border-b border-gray-200 dark:border-gray-700
+      } cursor-pointer border-b border-gray-200 dark:border-gray-700 FileList-row
     `}>
-      <div className="w-10 px-3 py-2" onClick={(e) => e.stopPropagation()}>
+      <div className="w-10 px-3 py-1" onClick={(e) => e.stopPropagation()}>
         <input
           type="checkbox"
           className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
@@ -40,13 +40,13 @@ const Row = React.memo(({ data, index, style }: ListChildComponentProps<RowData>
           }}
         />
       </div>
-      <div className="flex-1 px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+      <div className="flex-1 px-3 py-1 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
         {file.name}
       </div>
-      <div className="w-32 px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+      <div className="w-32 px-3 py-1 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
         {file.type}
       </div>
-      <div className="w-32 px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+      <div className="w-32 px-3 py-1 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
         {formatFileSize(file.size)}
       </div>
     </div>

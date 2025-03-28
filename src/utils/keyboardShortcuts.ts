@@ -13,6 +13,24 @@ interface ShortcutOptions {
   shift?: boolean;
 }
 
+// Keep track of all active handlers for cleanup
+const activeHandlers: { handler: (e: KeyboardEvent) => void; type: string }[] = [];
+
+/**
+ * Unregister all keyboard shortcuts
+ * This is used during app shutdown to ensure proper cleanup
+ */
+export function unregisterAllShortcuts() {
+  console.log(`Unregistering ${activeHandlers.length} keyboard shortcuts`);
+  
+  activeHandlers.forEach(({ handler, type }) => {
+    window.removeEventListener(type, handler);
+  });
+  
+  // Clear the array
+  activeHandlers.length = 0;
+}
+
 /**
  * Register a keyboard shortcut
  * 
@@ -41,8 +59,16 @@ export function useKeyboardShortcut(
     
     window.addEventListener('keydown', handleKeyDown);
     
+    // Track this handler for global cleanup
+    activeHandlers.push({ handler: handleKeyDown, type: 'keydown' });
+    
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      // Remove from activeHandlers array
+      const index = activeHandlers.findIndex(item => item.handler === handleKeyDown);
+      if (index !== -1) {
+        activeHandlers.splice(index, 1);
+      }
     };
   }, [key, handler, options]);
 }
@@ -134,6 +160,8 @@ export function useAppShortcuts() {
   };
   
   useEffect(() => {
+    console.log("Registering global keyboard shortcuts");
+    
     // Global event handler for all keyboard shortcuts
     const handleKeyDown = async (e: KeyboardEvent) => {
       // Ignore shortcuts when typing in input fields, textareas, etc.
@@ -211,29 +239,53 @@ export function useAppShortcuts() {
         focusSearchBox();
       }
       
-      // Undo: Ctrl/Cmd + Z
-      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+      // History operations
+      
+      // Undo (Ctrl+Z)
+      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'z') {
         e.preventDefault();
-        await undo();
+        undo();
       }
       
-      // Redo: Ctrl/Cmd + Shift + Z or Ctrl/Cmd + Y
-      if ((e.ctrlKey || e.metaKey) && ((e.key === 'z' && e.shiftKey) || e.key === 'y')) {
+      // Redo (Ctrl+Y or Ctrl+Shift+Z)
+      if ((e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'y') ||
+          (e.ctrlKey && e.shiftKey && !e.altKey && e.key.toLowerCase() === 'z')) {
         e.preventDefault();
-        await redo();
+        redo();
       }
     };
     
-    // Add the global event listener
-    window.addEventListener('keydown', handleKeyDown, true); // Use capture phase
+    window.addEventListener('keydown', handleKeyDown);
     
-    // Cleanup
+    // Add to active handlers list for global cleanup
+    activeHandlers.push({ handler: handleKeyDown, type: 'keydown' });
+    
+    // Return cleanup function
     return () => {
-      window.removeEventListener('keydown', handleKeyDown, true);
+      console.log("Cleaning up global keyboard shortcuts");
+      window.removeEventListener('keydown', handleKeyDown);
+      
+      // Remove from active handlers
+      const index = activeHandlers.findIndex(item => item.handler === handleKeyDown);
+      if (index !== -1) {
+        activeHandlers.splice(index, 1);
+      }
     };
   }, [
-    files, previewMode, selectedFiles, rules, 
-    selectAllFiles, deselectAllFiles, setPreviewMode, clearFiles,
-    resetRules, updateNumbering, toggleDarkMode, savePreset, undo, redo, handleError
+    selectAllFiles, 
+    deselectAllFiles, 
+    setPreviewMode,
+    previewMode,
+    clearFiles,
+    files,
+    selectedFiles,
+    resetRules,
+    updateNumbering,
+    rules, 
+    savePreset,
+    toggleDarkMode,
+    undo,
+    redo,
+    handleError
   ]);
 } 

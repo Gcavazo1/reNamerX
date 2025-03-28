@@ -7,6 +7,7 @@
  */
 
 @import './styles/theme.css';
+@import './styles/compact.css'; /* Import compact styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities; 

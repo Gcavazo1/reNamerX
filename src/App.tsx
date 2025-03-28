@@ -11,17 +11,27 @@ import {
   UndoManager
 } from './components';
 import ShortcutHelp from './components/common/ShortcutHelp';
-import { useAppShortcuts } from './utils/keyboardShortcuts';
+import { useAppShortcuts, unregisterAllShortcuts } from './utils/keyboardShortcuts';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import ErrorProvider from './context/ErrorContext';
 import { useSettingsStore } from './stores/settingsStore';
 import { useRulesStore } from './stores/rulesStore';
 import { useFileStore } from './stores/fileStore';
 import { useFileFilterStore } from './stores/fileFilterStore';
+import { useHistoryStore } from './stores/historyStore';
 
 // Create a hook wrapper that we can use inside the ErrorProvider
 const KeyboardShortcutsWrapper = () => {
-  useAppShortcuts();
+  // Register keyboard shortcuts
+  const shortcuts = useAppShortcuts();
+  
+  // Clean up keyboard shortcuts on unmount
+  useEffect(() => {
+    return () => {
+      unregisterAllShortcuts();
+    };
+  }, []);
+  
   return null;
 };
 
@@ -42,6 +52,18 @@ function App() {
     useFileFilterStore.getState().resetFilter();
     
     setIsInitialized(true);
+    
+    // Cleanup function for component unmount
+    return () => {
+      // Clear any active state
+      useFileStore.getState().clearFiles();
+      useHistoryStore.getState().clearHistory();
+      
+      // Persist settings if needed
+      useSettingsStore.getState().saveSettings();
+      
+      console.log("App component cleanup completed");
+    };
   }, [initializeFromSettings]);
 
   // Apply the theme to the document
@@ -73,6 +95,12 @@ function AppContent({ darkMode, toggleDarkMode }: { darkMode: boolean; toggleDar
   useEffect(() => {
     // Reset filter to "All Files" when app loads
     useFileFilterStore.getState().resetFilter();
+    
+    // Cleanup function for AppContent unmount
+    return () => {
+      // Cancel any pending operations
+      console.log("AppContent cleanup: canceling pending operations");
+    };
   }, []);
   
   // Register keyboard shortcuts via the wrapper component

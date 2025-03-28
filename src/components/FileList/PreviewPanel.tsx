@@ -58,9 +58,9 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({ children, onDock, onClo
               handle={<div className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize bg-transparent" />}
             >
               <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 w-full h-full flex flex-col">
-                <div className="floating-window-handle flex items-center justify-between p-2 bg-gray-100 dark:bg-gray-700 rounded-t-lg cursor-move select-none">
+                <div className="floating-window-handle flex items-center justify-between p-1 bg-gray-100 dark:bg-gray-700 rounded-t-lg cursor-move select-none">
                   <span className="font-medium text-gray-700 dark:text-gray-200">{title}</span>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-1">
                     <button
                       onClick={onDock}
                       className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
@@ -81,7 +81,7 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({ children, onDock, onClo
                     </button>
                   </div>
                 </div>
-                <div className="flex-1 overflow-auto p-4">
+                <div className="flex-1 overflow-auto p-3">
                   {children}
                 </div>
                 <div className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize opacity-0 hover:opacity-100 transition-opacity">
