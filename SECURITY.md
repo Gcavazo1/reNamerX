@@ -12,7 +12,7 @@ We take the security of reNamerX seriously. If you believe you've found a securi
 
 1. **Do Not Disclose Publicly**: Please do not disclose the vulnerability publicly until it has been addressed by the maintainers.
 
-2. **Submit a Report**: Send an email to [your-security-email@example.com] with a detailed description of the vulnerability.
+2. **Submit a Report**: Send an email to gcavazo1@gmail.com with a detailed description of the vulnerability.
 
 3. **Include Details**: Please include the following in your report:
    - Type of vulnerability
