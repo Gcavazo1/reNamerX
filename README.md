@@ -1,6 +1,13 @@
 # reNamerX
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Gcavazo1/reNamerX)
+![GitHub all releases](https://img.shields.io/github/downloads/Gcavazo1/reNamerX/total)
+![GitHub issues](https://img.shields.io/github/issues/Gcavazo1/reNamerX)
+![License](https://img.shields.io/github/license/Gcavazo1/reNamerX)
+
 A powerful desktop file batch renaming application developed by Gabriel Cavazos (GigaCode).
+
+![reNamerX Screenshot](https://raw.githubusercontent.com/Gcavazo1/reNamerX/master/src/assets/Screenshot_00.jpg)
 
 ## Features
 
