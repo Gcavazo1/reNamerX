@@ -1,0 +1,8 @@
+To complete the website setup, you should add a favicon.ico file to this directory.
+
+You can:
+1. Convert the app icon from reNamerX-master/src/assets/renamerx_favicon_image.png to .ico format
+2. Use an online converter or Photoshop to create an .ico file
+3. Place the generated favicon.ico file directly in this public directory
+
+The website is already configured to use /favicon.ico in the HTML head. 
