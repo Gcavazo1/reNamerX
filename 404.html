@@ -5,61 +5,140 @@
               gtag('config', 'G-XXXXXXXXXX', {
                 page_path: window.location.pathname,
               });
-            </script><title data-next-head="">404: This page could not be found</title><script>
-              // Add basePath to window to be used by the path correction script
+            </script><title data-next-head="">404: This page could not be found</title><base href="/reNamerX/"/><script>
               window.basePath = '/reNamerX';
-            </script><link rel="preload" href="/reNamerX/_next/static/media/a34f9d1faa5f3315-s.p.woff2" as="font" type="font/woff2" crossorigin="anonymous" data-next-font="size-adjust"/><link rel="preload" href="/reNamerX/_next/static/css/884cab902b93e585.css" as="style"/><link rel="stylesheet" href="/reNamerX/_next/static/css/884cab902b93e585.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/reNamerX/_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="/reNamerX/_next/static/chunks/webpack-2653be9351fa4a80.js" defer=""></script><script src="/reNamerX/_next/static/chunks/framework-ee17a4c43a44d3e2.js" defer=""></script><script src="/reNamerX/_next/static/chunks/main-318a253d60ff2936.js" defer=""></script><script src="/reNamerX/_next/static/chunks/pages/_app-0daed31a27277c68.js" defer=""></script><script src="/reNamerX/_next/static/chunks/pages/_error-b41dbd85229d9331.js" defer=""></script><script src="/reNamerX/_next/static/LZfp3pjY2s-7OjblHjTik/_buildManifest.js" defer=""></script><script src="/reNamerX/_next/static/LZfp3pjY2s-7OjblHjTik/_ssgManifest.js" defer=""></script></head><body><div id="__next"><main class="__className_cb3fd5 min-h-screen bg-dark text-white"><div style="font-family:system-ui,&quot;Segoe UI&quot;,Roboto,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;height:100vh;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="line-height:48px"><style>body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}</style><h1 class="next-error-h1" style="display:inline-block;margin:0 20px 0 0;padding-right:23px;font-size:24px;font-weight:500;vertical-align:top">404</h1><div style="display:inline-block"><h2 style="font-size:14px;font-weight:400;line-height:28px">This page could not be found<!-- -->.</h2></div></div></div></main></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"statusCode":404}},"page":"/_error","query":{},"buildId":"LZfp3pjY2s-7OjblHjTik","assetPrefix":"/reNamerX","nextExport":true,"isFallback":false,"gip":true,"scriptLoader":[]}</script><script>
+              
+              // Fix paths by adding a base element
+              if (window.location.hostname === 'gcavazo1.github.io') {
+                // Create a more aggressive path fixing function
+                window.fixPath = function(path) {
+                  if (!path) return path;
+                  if (path.startsWith('http')) return path; // External URL
+                  
+                  // Remove any leading slash
+                  if (path.startsWith('/')) {
+                    path = path.substring(1);
+                  }
+                  
+                  // Add basePath if not already there
+                  if (!path.startsWith('reNamerX/')) {
+                    path = 'reNamerX/' + path;
+                  }
+                  
+                  // Add leading slash
+                  if (!path.startsWith('/')) {
+                    path = '/' + path;
+                  }
+                  
+                  return path;
+                };
+              }
+            </script><link rel="preload" href="/reNamerX/_next/static/media/a34f9d1faa5f3315-s.p.woff2" as="font" type="font/woff2" crossorigin="anonymous" data-next-font="size-adjust"/><link rel="preload" href="/reNamerX/_next/static/css/884cab902b93e585.css" as="style"/><link rel="stylesheet" href="/reNamerX/_next/static/css/884cab902b93e585.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/reNamerX/_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="/reNamerX/_next/static/chunks/webpack-2653be9351fa4a80.js" defer=""></script><script src="/reNamerX/_next/static/chunks/framework-ee17a4c43a44d3e2.js" defer=""></script><script src="/reNamerX/_next/static/chunks/main-ab623156c75c1e2c.js" defer=""></script><script src="/reNamerX/_next/static/chunks/pages/_app-0daed31a27277c68.js" defer=""></script><script src="/reNamerX/_next/static/chunks/pages/_error-b41dbd85229d9331.js" defer=""></script><script src="/reNamerX/_next/static/Cd5u46kuk2MmwMf9Jvj0X/_buildManifest.js" defer=""></script><script src="/reNamerX/_next/static/Cd5u46kuk2MmwMf9Jvj0X/_ssgManifest.js" defer=""></script></head><body><div id="__next"><main class="__className_cb3fd5 min-h-screen bg-dark text-white"><div style="font-family:system-ui,&quot;Segoe UI&quot;,Roboto,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;height:100vh;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="line-height:48px"><style>body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}</style><h1 class="next-error-h1" style="display:inline-block;margin:0 20px 0 0;padding-right:23px;font-size:24px;font-weight:500;vertical-align:top">404</h1><div style="display:inline-block"><h2 style="font-size:14px;font-weight:400;line-height:28px">This page could not be found<!-- -->.</h2></div></div></div></main></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"statusCode":404}},"page":"/_error","query":{},"buildId":"Cd5u46kuk2MmwMf9Jvj0X","assetPrefix":"/reNamerX","nextExport":true,"isFallback":false,"gip":true,"scriptLoader":[]}</script><script>
               (function() {
+                if (window.location.hostname !== 'gcavazo1.github.io') return;
+                
+                console.log('Applying GitHub Pages path fixes');
                 const basePath = '/reNamerX';
                 
-                // Fix image paths that don't include the basePath
-                document.querySelectorAll('img').forEach(img => {
-                  if (img.src && img.src.startsWith(window.location.origin + '/') && !img.src.includes(basePath)) {
-                    img.src = img.src.replace(window.location.origin, window.location.origin + basePath);
+                // Fix all link elements (CSS)
+                document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+                  const href = link.getAttribute('href');
+                  if (href && !href.includes(basePath) && !href.startsWith('http')) {
+                    const newHref = basePath + href;
+                    console.log('Fixing CSS link:', href, '->', newHref);
+                    link.setAttribute('href', newHref);
                   }
                 });
                 
-                // Fix links that don't include the basePath
-                document.querySelectorAll('a').forEach(a => {
-                  if (a.href && a.href.startsWith(window.location.origin + '/') && !a.href.includes(basePath) && !a.href.includes('github.com')) {
-                    a.href = a.href.replace(window.location.origin, window.location.origin + basePath);
+                // Fix all script elements
+                document.querySelectorAll('script').forEach(script => {
+                  const src = script.getAttribute('src');
+                  if (src && !src.includes(basePath) && !src.startsWith('http')) {
+                    const newSrc = basePath + src;
+                    console.log('Fixing script src:', src, '->', newSrc);
+                    script.setAttribute('src', newSrc);
                   }
                 });
-
-                // Fix resource paths (scripts, stylesheets, etc.)
-                const fixResource = (url) => {
-                  if (url && url.startsWith('/') && !url.startsWith(basePath)) {
-                    return basePath + url;
+                
+                // Fix image paths
+                document.querySelectorAll('img').forEach(img => {
+                  if (img.src && img.src.startsWith(window.location.origin) && !img.src.includes(basePath)) {
+                    const newSrc = img.src.replace(window.location.origin, window.location.origin + basePath);
+                    console.log('Fixing image src:', img.src, '->', newSrc);
+                    img.src = newSrc;
                   }
-                  return url;
-                };
-
-                // Attempt to fix missing resources dynamically
-                window.addEventListener('error', function(e) {
-                  if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK') {
-                    const origSrc = e.target.src || e.target.href;
-                    if (origSrc && !origSrc.includes(basePath) && origSrc.startsWith(window.location.origin)) {
-                      const newSrc = origSrc.replace(window.location.origin, window.location.origin + basePath);
-                      console.log('Fixing resource path:', origSrc, '->', newSrc);
-                      
-                      // Create a new element to replace the broken one
-                      const newElem = document.createElement(e.target.tagName);
-                      for (const attr of e.target.attributes) {
-                        if (attr.name === 'src') {
-                          newElem.src = newSrc;
-                        } else if (attr.name === 'href') {
-                          newElem.href = newSrc;
-                        } else {
-                          newElem.setAttribute(attr.name, attr.value);
-                        }
+                });
+                
+                // Fix anchor links
+                document.querySelectorAll('a').forEach(a => {
+                  if (a.href && a.href.startsWith(window.location.origin) && !a.href.includes(basePath)) {
+                    const newHref = a.href.replace(window.location.origin, window.location.origin + basePath);
+                    console.log('Fixing anchor href:', a.href, '->', newHref);
+                    a.href = newHref;
+                  }
+                });
+                
+                // Create mutation observer to fix dynamically added elements
+                const observer = new MutationObserver(mutations => {
+                  mutations.forEach(mutation => {
+                    mutation.addedNodes.forEach(node => {
+                      if (node.nodeType === 1) { // Element node
+                        // Fix links in the added element
+                        node.querySelectorAll && node.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+                          const href = link.getAttribute('href');
+                          if (href && !href.includes(basePath) && !href.startsWith('http')) {
+                            link.setAttribute('href', basePath + href);
+                          }
+                        });
+                        
+                        // Fix scripts in the added element
+                        node.querySelectorAll && node.querySelectorAll('script').forEach(script => {
+                          const src = script.getAttribute('src');
+                          if (src && !src.includes(basePath) && !src.startsWith('http')) {
+                            script.setAttribute('src', basePath + src);
+                          }
+                        });
                       }
-                      
-                      // Replace the old element
-                      e.target.parentNode.replaceChild(newElem, e.target);
-                      
-                      return true; // Prevent the error from propagating
-                    }
-                  }
-                }, true);
+                    });
+                  });
+                });
+                
+                observer.observe(document.documentElement, { 
+                  childList: true, 
+                  subtree: true 
+                });
+                
+                // Load missing scripts manually
+                const missingScripts = [
+                  '/_next/static/chunks/webpack-2653be9351fa4a80.js',
+                  '/_next/static/chunks/framework-ee17a4c43a44d3e2.js',
+                  '/_next/static/chunks/main-318a253d60ff2936.js',
+                  '/_next/static/chunks/pages/_app-0daed31a27277c68.js',
+                  '/_next/static/chunks/pages/index-2114998b28e2b3a5.js',
+                  '/_next/static/chunks/8-fd0c493a642e766e.js',
+                  '/_next/static/RglurqSU-aE1d5WYJ-YVz/_buildManifest.js',
+                  '/_next/static/RglurqSU-aE1d5WYJ-YVz/_ssgManifest.js'
+                ];
+                
+                missingScripts.forEach(scriptPath => {
+                  const script = document.createElement('script');
+                  script.src = basePath + scriptPath;
+                  script.async = true;
+                  document.body.appendChild(script);
+                  console.log('Manually loading script:', basePath + scriptPath);
+                });
+                
+                // Load missing CSS
+                const missingCSS = [
+                  '/_next/static/css/884cab902b93e585.css'
+                ];
+                
+                missingCSS.forEach(cssPath => {
+                  const link = document.createElement('link');
+                  link.rel = 'stylesheet';
+                  link.href = basePath + cssPath;
+                  document.head.appendChild(link);
+                  console.log('Manually loading CSS:', basePath + cssPath);
+                });
               })();
             </script></body></html>
