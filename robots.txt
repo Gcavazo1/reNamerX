@@ -1,0 +1,6 @@
+# Allow all web crawlers to index the site
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://gcavazo1.github.io/reNamerX/sitemap.xml 
