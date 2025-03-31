@@ -15,6 +15,17 @@ const nextConfig = {
   basePath: '/reNamerX',
   assetPrefix: '/reNamerX/',
   
+  // Redirect rules to fix duplicate basePath issues
+  async redirects() {
+    return [
+      {
+        source: '/reNamerX/:path*',
+        destination: '/:path*',
+        permanent: true,
+      },
+    ];
+  },
+  
   // Static HTML export (only needed for GitHub Pages, Vercel handles this automatically)
   output: 'export',
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { withBasePath } from '@/utils/paths'
 
 /**
  * A wrapper around Next.js Link component that prevents path duplication
@@ -15,24 +14,20 @@ interface SafeLinkProps {
 }
 
 export default function SafeLink({ href, className, children, onClick }: SafeLinkProps) {
-  const router = useRouter()
+  // Next.js Link automatically applies basePath from next.config.js
+  // We just need to ensure the path doesn't already have /reNamerX/
   
-  // Simple path cleaning to ensure relative paths
-  // Remove leading and duplicate slashes, and strip any "/reNamerX" prefix
-  const cleanPath = href
-    .replace(/^\//, '')  // Remove leading slash 
-    .replace(/^reNamerX\//, '')  // Remove reNamerX/ prefix if present
-  
-  // Use the withBasePath utility to prepend the base path properly
-  // This makes all links relative to the base path
-  const basePath = '/reNamerX'
-  const finalHref = `${basePath}/${cleanPath}`
+  // Clean the href by removing any explicit basePath
+  const cleanHref = href
+    .replace(/^\/reNamerX\//, '/') // Remove /reNamerX/ prefix if present
+    .replace(/^reNamerX\//, '/') // Also handle without leading slash
   
   return (
     <Link 
-      href={finalHref} 
+      href={cleanHref}
       className={className} 
       onClick={onClick}
+      prefetch={false} // Disable prefetching to prevent path doubling issues
     >
       {children}
     </Link>

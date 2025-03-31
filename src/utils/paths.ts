@@ -4,46 +4,41 @@
 
 /**
  * Returns the base path for the application
- * We hardcode this to match next.config.js for GitHub Pages
+ * Used only for references, not for modifying paths
  */
 export const getBasePath = (): string => {
   return '/reNamerX';
 };
 
 /**
- * Returns the full URL for a given path
+ * Returns the full URL for a given path including domain and basePath
+ * Useful for meta tags and external references
  */
 export const getFullUrl = (path: string): string => {
-  // This should be updated to use the actual domain from environment variable
   const baseDomain = 'https://gcavazo1.github.io';
   const basePath = getBasePath();
   
-  // Ensure path starts with a slash
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  // Clean the path to avoid duplication
+  const cleanPath = path
+    .replace(/^\/reNamerX\//, '/') // Remove /reNamerX/ prefix if present
+    .replace(/^reNamerX\//, '/'); // Also handle without leading slash
   
-  return `${baseDomain}${basePath}${normalizedPath}`;
+  return `${baseDomain}${basePath}${cleanPath}`;
 };
 
 /**
- * Returns a path with the base path prepended
- * This now assumes all input paths are relative and should have the base path added
+ * This function is maintained for backward compatibility.
+ * Next.js automatically adds basePath to all links, so we should 
+ * only need to clean paths to ensure no duplication.
  */
 export const withBasePath = (path: string): string => {
-  const basePath = getBasePath();
+  // For assets references, we need the basePath, but for routing,
+  // Next.js handles this automatically through the Link component.
   
-  // For root path, just return the base path
-  if (!path || path === '/') return basePath;
+  // For compatibility, we'll still clean any duplicated paths
+  const cleanPath = path
+    .replace(/^\/reNamerX\//, '/') // Remove /reNamerX/ prefix if present
+    .replace(/^reNamerX\//, '/');  // Also handle without leading slash
   
-  // Strip any leading slashes from the path
-  const cleanPath = path.startsWith('/') ? path.substring(1) : path;
-  
-  // Remove any instances of the repo name if already there (without the leading slash)
-  // This ensures we never get /reNamerX/reNamerX/docs
-  const basePathWithoutSlash = basePath.substring(1);
-  const fullyCleanedPath = cleanPath.startsWith(basePathWithoutSlash + '/') 
-    ? cleanPath.substring(basePathWithoutSlash.length + 1)
-    : cleanPath;
-  
-  // Combine base path with cleaned path
-  return `${basePath}/${fullyCleanedPath}`;
+  return cleanPath;
 }; 

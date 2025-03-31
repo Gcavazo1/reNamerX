@@ -56,9 +56,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build with Next.js
-        run: npm run build
-        env:
-          GITHUB_PAGES: 'true'
+        run: npm run build:gh
       - name: Create .nojekyll file
         run: touch out/.nojekyll
       - name: Upload artifact
