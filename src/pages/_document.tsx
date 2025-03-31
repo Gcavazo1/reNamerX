@@ -1,5 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import { getBasePath } from '@/utils/paths'
+import { getBasePath, isGitHubPages } from '@/utils/paths'
 
 export default function Document() {
   const basePath = getBasePath();
@@ -21,7 +21,7 @@ export default function Document() {
               // Set base path for background images
               document.addEventListener('DOMContentLoaded', function() {
                 var styleSheet = document.createElement('style');
-                styleSheet.textContent = '.bg-hero-pattern { background-image: url("${basePath}/images/renamerx-hero-background.jpg") !important; }';
+                styleSheet.textContent = '.bg-hero-pattern { background-image: url("${basePath}/images/reNamerX_heroBackground.png") !important; }';
                 document.head.appendChild(styleSheet);
               });
             `,

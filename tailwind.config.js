@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 const theme = require('./src/utils/theme');
 
+// A simplified version of the base path function for use in the config
+// This isn't a perfect solution since tailwind compiles at build time,
+// but we'll override this in _document.tsx at runtime for GitHub Pages
+const basePath = '';
+
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
@@ -79,7 +84,7 @@ module.exports = {
         'wilma': ['"Wilma Mankiller"', 'sans-serif'],
       },
       backgroundImage: {
-        'hero-pattern': "url('/images/renamerx-hero-background.jpg')",
+        'hero-pattern': "url('/images/reNamerX_heroBackground.png')",
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'cyberpunk-gradient': `linear-gradient(to right, ${theme.colors.primary}, ${theme.colors.secondary})`,
