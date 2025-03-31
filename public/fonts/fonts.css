@@ -1,0 +1,32 @@
+/* Font declarations */
+@font-face {
+  font-family: 'Modern Girl';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Modern Girl';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Wilma Mankiller Modern';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Wilma Mankiller Modern';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
+} 
