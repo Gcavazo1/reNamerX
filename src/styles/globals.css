@@ -3,13 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Define base path as CSS variable that can be set at runtime */
+:root {
+  --base-path: '';
+}
+
 /* Custom Font Declarations */
 @font-face {
   font-family: 'Modern Girl';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/reNamerX/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
+  src: url(var(--base-path) '/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
 }
 
 @font-face {
@@ -17,7 +22,7 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('/reNamerX/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
+  src: url(var(--base-path) '/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
 }
 
 @font-face {
@@ -25,7 +30,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/reNamerX/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
+  src: url(var(--base-path) '/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
 }
 
 @font-face {
@@ -33,7 +38,7 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('/reNamerX/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
+  src: url(var(--base-path) '/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
 }
 
 @layer base {
