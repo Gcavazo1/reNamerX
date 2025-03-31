@@ -24,12 +24,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          # Ensure it checks out the full repository
+          fetch-depth: 0
+      
+      # Clear caches if they exist (as suggested by Copilot)
+      - name: Clear caches
+        run: |
+          echo "Clearing any cached actions to prevent dependency issues"
+          rm -rf ~/.cache/github-actions
+          mkdir -p ~/.cache/github-actions
       
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'npm'
+          # Disable caching to avoid potential issues
+          cache: false
       
       - name: Install dependencies
         run: npm ci
@@ -43,7 +54,7 @@ jobs:
         uses: actions/configure-pages@v3
       
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
           path: './out'
   
