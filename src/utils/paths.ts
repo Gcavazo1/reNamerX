@@ -35,14 +35,24 @@ export const getFullUrl = (path: string): string => {
 export const withBasePath = (path: string): string => {
   const basePath = getBasePath();
   
+  // If no base path (not on GitHub Pages), just normalize the path
+  if (!basePath) {
+    return path === '/' ? '/' : (path.startsWith('/') ? path : `/${path}`);
+  }
+  
   // Handle empty or root path
-  if (!path || path === '/') return basePath || '/';
+  if (!path || path === '/') return basePath;
   
-  // Remove any existing base path from the input path
-  const cleanPath = path.replace(new RegExp(`^${basePath}`, 'i'), '');
+  // First, standardize the path (ensure it starts with a slash)
+  const slashedPath = path.startsWith('/') ? path : `/${path}`;
   
-  // Ensure path starts with a slash
-  const normalizedPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+  // Then handle case where path already includes basePath (including variants with different casing)
+  const basePathPattern = new RegExp(`^${basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(/|$)`, 'i');
+  if (basePathPattern.test(slashedPath)) {
+    // Path already has base path, just return it normalized
+    return basePath + slashedPath.replace(basePathPattern, '/');
+  }
   
-  return `${basePath}${normalizedPath}`;
+  // Otherwise, add the base path
+  return `${basePath}${slashedPath}`;
 }; 

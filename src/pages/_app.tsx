@@ -67,24 +67,25 @@ export default function App({ Component, pageProps }: AppProps) {
         const redirectPath = query.split('?/')[1];
         console.log('SPA redirect detected to path:', redirectPath);
         
-        // Get the repository name from the pathname
-        const pathParts = window.location.pathname.split('/').filter(Boolean);
-        // Remove duplicate repository name if present
-        const uniquePathParts = pathParts.filter((part, index, self) => 
-          self.indexOf(part) === index
-        );
-        const repoPath = uniquePathParts[0] ? '/' + uniquePathParts[0] : '';
+        // Get the base path (repository name) from the current URL
+        const basePathSegments = window.location.pathname.split('/');
+        const repoName = basePathSegments[1] || '';
+        const basePath = repoName ? `/${repoName}` : '';
         
         // Reconstruct the proper URL
         const cleanUrl = window.location.protocol + '//' + 
                         window.location.host + 
-                        repoPath;
+                        basePath;
         
         // Clean up any double slashes and handle query parameters
-        const finalPath = redirectPath
+        let finalPath = redirectPath
           .replace(/~and~/g, '&')
-          .replace(/^\/+/, '')
-          .replace(/^reNamerX\//, ''); // Remove duplicate repository name if present
+          .replace(/^\/+/, '');
+        
+        // Remove repository name from path if it appears at the beginning
+        if (repoName && finalPath.startsWith(repoName + '/')) {
+          finalPath = finalPath.substring(repoName.length + 1);
+        }
         
         // Update the browser URL without triggering navigation
         window.history.replaceState(
