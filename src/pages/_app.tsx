@@ -56,35 +56,31 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events])
 
   useEffect(() => {
-    // This script checks if a route was passed in the URL query
-    // and navigates to that route if it exists
+    // This script checks if we are being redirected from the 404.html page
+    // with a specially formatted URL and reconstructs the proper URL
     if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const route = params.get('route');
-      const { pathname } = router;
+      // If we're on a GitHub Pages site and redirected from a deep link
+      const redirectMatch = window.location.search.match(/\?\/(.*)/);
       
-      if (route) {
-        console.log('Found route parameter:', route);
+      if (redirectMatch && redirectMatch[1]) {
+        const redirectPath = redirectMatch[1];
+        console.log('SPA redirect detected to path:', redirectPath);
         
-        // Clean up the URL by removing the route parameter
-        let newUrl = window.location.pathname;
-        if (window.location.search) {
-          const searchParams = new URLSearchParams(window.location.search);
-          searchParams.delete('route');
-          const newSearch = searchParams.toString();
-          newUrl += newSearch ? `?${newSearch}` : '';
-        }
-        newUrl += window.location.hash;
+        // Remove the ?/ part and reconstruct the URL properly
+        const cleanUrl = window.location.protocol + '//' + 
+                       window.location.host + 
+                       window.location.pathname.replace(/\/$/, '');
+                       
+        // Update the URL without the special query parameter
+        window.history.replaceState(null, '', 
+          cleanUrl + '/' + redirectPath.replace(/~and~/g, '&') + window.location.hash
+        );
         
-        // Update the URL without triggering a navigation
-        window.history.replaceState(null, '', newUrl);
-        
-        // Add a trailing slash if needed
-        const routePath = route.endsWith('/') || route === '' ? route : `${route}/`;
-        
-        // Navigate to the route using router
-        console.log('Navigating to route:', routePath);
-        router.push('/' + routePath);
+        // Navigate to the proper route
+        console.log('Navigating to cleaned path:', '/' + redirectPath);
+        setTimeout(() => {
+          router.push('/' + redirectPath);
+        }, 100);
       }
     }
   }, [router]);
