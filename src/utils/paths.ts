@@ -31,28 +31,35 @@ export const getFullUrl = (path: string): string => {
 
 /**
  * Returns a path with the base path prepended
+ * SIMPLIFIED VERSION - guaranteed not to duplicate base paths
  */
 export const withBasePath = (path: string): string => {
+  // Get our base path (/reNamerX or '')
   const basePath = getBasePath();
   
-  // If no base path (not on GitHub Pages), just normalize the path
+  // If there's no base path or we're not on GitHub Pages, just return the path normalized
   if (!basePath) {
     return path === '/' ? '/' : (path.startsWith('/') ? path : `/${path}`);
   }
   
-  // Handle empty or root path
-  if (!path || path === '/') return basePath;
-  
-  // First, standardize the path (ensure it starts with a slash)
-  const slashedPath = path.startsWith('/') ? path : `/${path}`;
-  
-  // Then handle case where path already includes basePath (including variants with different casing)
-  const basePathPattern = new RegExp(`^${basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(/|$)`, 'i');
-  if (basePathPattern.test(slashedPath)) {
-    // Path already has base path, just return it normalized
-    return basePath + slashedPath.replace(basePathPattern, '/');
+  // Log for debugging
+  if (typeof window !== 'undefined' && path.includes(basePath)) {
+    console.warn('withBasePath received path that already contains basePath:', path);
   }
   
-  // Otherwise, add the base path
-  return `${basePath}${slashedPath}`;
+  // For root path, just return the base path
+  if (!path || path === '/') return basePath;
+  
+  // Strip any leading slashes from the path
+  const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  
+  // STRICT CHECK: Remove any instances of the basePath (without the leading slash)
+  // This ensures we never get /reNamerX/reNamerX/docs
+  const basePathWithoutSlash = basePath.substring(1);
+  const fullyCleanedPath = cleanPath.startsWith(basePathWithoutSlash + '/') 
+    ? cleanPath.substring(basePathWithoutSlash.length + 1)
+    : cleanPath;
+  
+  // Combine base path with cleaned path
+  return `${basePath}/${fullyCleanedPath}`;
 }; 

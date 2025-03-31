@@ -63,7 +63,7 @@ const Navbar = () => {
             <Link 
               href={withBasePath('/')} 
               className={`text-gray-200 hover:text-white transition-colors ${
-                router.pathname === withBasePath('/') ? 'font-medium' : ''
+                router.pathname === '/' || router.pathname === withBasePath('/') ? 'font-medium' : ''
               }`}
             >
               Home
@@ -79,7 +79,7 @@ const Navbar = () => {
             <Link 
               href={withBasePath('/download')} 
               className={`text-gray-200 hover:text-white transition-colors ${
-                router.pathname === withBasePath('/download') ? 'font-medium' : ''
+                router.pathname === '/download' || router.pathname === withBasePath('/download') ? 'font-medium' : ''
               }`}
             >
               Downloads
@@ -121,7 +121,7 @@ const Navbar = () => {
           <Link 
             href={withBasePath('/')} 
             className={`block px-3 py-2 rounded-md text-gray-200 hover:text-white hover:bg-gray-900 transition-colors ${
-              router.pathname === withBasePath('/') ? 'font-medium' : ''
+              router.pathname === '/' || router.pathname === withBasePath('/') ? 'font-medium' : ''
             }`}
             onClick={closeMenu}
           >
@@ -139,7 +139,7 @@ const Navbar = () => {
           <Link 
             href={withBasePath('/download')} 
             className={`block px-3 py-2 rounded-md text-gray-200 hover:text-white hover:bg-gray-900 transition-colors ${
-              router.pathname === withBasePath('/download') ? 'font-medium' : ''
+              router.pathname === '/download' || router.pathname === withBasePath('/download') ? 'font-medium' : ''
             }`}
             onClick={closeMenu}
           >

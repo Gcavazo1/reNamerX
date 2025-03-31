@@ -69,14 +69,14 @@ const Home = () => {
             </p>
             <div className="flex flex-wrap gap-4 mt-6">
               <Link 
-                href={`${withBasePath('/download')}`}
+                href={withBasePath('/download')}
                 className="cyberpunk-button font-modern-girl"
               >
                 <FaDownload className="mr-2" />
                 DOWNLOAD NOW
               </Link>
               <Link
-                href={`${withBasePath('/docs')}`}
+                href={withBasePath('/docs')}
                 className="cyberpunk-button-outline font-modern-girl"
               >
                 <FaCode className="mr-2" />
@@ -160,7 +160,7 @@ const Home = () => {
 
           <div className="text-center mt-12">
             <Link
-              href={`${withBasePath('/docs/features')}`}
+              href={withBasePath('/docs/features')}
               className="inline-flex items-center text-primary hover:text-primary-dark font-medium font-modern-girl transition-colors"
             >
               <span>See all features</span>
@@ -225,7 +225,7 @@ const Home = () => {
             </p>
             <div className="cta-button-container">
               <Link
-                href={`${withBasePath('/download')}`}
+                href={withBasePath('/download')}
                 className="cyberpunk-button font-modern-girl"
               >
                 <FaDownload className="mr-2" />

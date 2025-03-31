@@ -30,6 +30,24 @@ declare global {
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   
+  // Debug router changes
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      console.log('[Router] Route change to:', url);
+      
+      // Detect and log potential duplicate paths 
+      const basePath = getBasePath();
+      if (basePath && url.includes(`${basePath}${basePath}`)) {
+        console.warn('[Router] Detected duplicate base path in URL:', url);
+      }
+    }
+    
+    router.events.on('routeChangeStart', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    }
+  }, [router.events]);
+  
   // Handle trailing slashes consistently
   useEffect(() => {
     const path = router.asPath
@@ -65,12 +83,13 @@ export default function App({ Component, pageProps }: AppProps) {
       if (shouldRedirect) {
         // Find the path after ?/
         const redirectPath = query.split('?/')[1];
-        console.log('SPA redirect detected to path:', redirectPath);
+        console.log('[SPA] Redirect detected to path:', redirectPath);
         
         // Get the base path (repository name) from the current URL
         const basePathSegments = window.location.pathname.split('/');
         const repoName = basePathSegments[1] || '';
         const basePath = repoName ? `/${repoName}` : '';
+        console.log('[SPA] Base path detected as:', basePath);
         
         // Reconstruct the proper URL
         const cleanUrl = window.location.protocol + '//' + 
@@ -85,17 +104,22 @@ export default function App({ Component, pageProps }: AppProps) {
         // Remove repository name from path if it appears at the beginning
         if (repoName && finalPath.startsWith(repoName + '/')) {
           finalPath = finalPath.substring(repoName.length + 1);
+          console.log('[SPA] Removed duplicate repo name from path:', finalPath);
         }
+        
+        // Final URL
+        const redirectUrl = `${cleanUrl}/${finalPath}${window.location.hash}`;
+        console.log('[SPA] Redirecting to final URL:', redirectUrl);
         
         // Update the browser URL without triggering navigation
         window.history.replaceState(
           null, 
           '', 
-          `${cleanUrl}/${finalPath}${window.location.hash}`
+          redirectUrl
         );
         
         // Navigate using Next.js router
-        console.log('Navigating to cleaned path:', '/' + finalPath);
+        console.log('[SPA] Using Next.js router to navigate to:', '/' + finalPath);
         setTimeout(() => {
           router.push('/' + finalPath);
         }, 100);
