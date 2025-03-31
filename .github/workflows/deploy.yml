@@ -18,8 +18,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
-  build:
+  # Combined build and deploy job
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -54,15 +57,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1.0.1
         with:
           path: 'out' # Ensure Next.js outputs to this folder
-  
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1.0.1
