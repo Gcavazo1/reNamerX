@@ -17,34 +17,22 @@ interface SafeLinkProps {
 export default function SafeLink({ href, className, children, onClick }: SafeLinkProps) {
   const router = useRouter()
   
-  // Clean any potential duplicate basePath
-  const basePathPattern = /^\/reNamerX\/reNamerX(\/|$)/i
-  const cleanedHref = href.replace(basePathPattern, '/reNamerX$1')
+  // Simple path cleaning to ensure relative paths
+  // Remove leading and duplicate slashes, and strip any "/reNamerX" prefix
+  const cleanPath = href
+    .replace(/^\//, '')  // Remove leading slash 
+    .replace(/^reNamerX\//, '')  // Remove reNamerX/ prefix if present
   
-  // Use our withBasePath function to ensure correct path
-  const finalHref = withBasePath(cleanedHref)
-  
-  // Log the href transformation for debugging
-  if (typeof window !== 'undefined' && href !== finalHref) {
-    console.log(`[SafeLink] Transformed href: ${href} → ${finalHref}`)
-  }
+  // Use the withBasePath utility to prepend the base path properly
+  // This makes all links relative to the base path
+  const basePath = '/reNamerX'
+  const finalHref = `${basePath}/${cleanPath}`
   
   return (
     <Link 
       href={finalHref} 
       className={className} 
-      onClick={(e) => {
-        if (onClick) onClick()
-        
-        // Extra safety - if path is duplicated, cancel navigation and fix manually
-        if (finalHref.includes('/reNamerX/reNamerX/')) {
-          e.preventDefault()
-          console.warn('[SafeLink] Prevented navigation to duplicate path:', finalHref)
-          const correctedPath = finalHref.replace('/reNamerX/reNamerX/', '/reNamerX/')
-          router.push(correctedPath)
-          return false
-        }
-      }}
+      onClick={onClick}
     >
       {children}
     </Link>

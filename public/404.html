@@ -2,38 +2,34 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Single Page Apps for GitHub Pages</title>
+    <title>Page not found - reNamerX</title>
     <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // MIT License
-      // https://github.com/rafgraph/spa-github-pages
-      // This script takes the current url and converts the path and query
-      // string into just a query string, and then redirects the browser
-      // to the new url with only a query string and hash fragment,
-      // e.g. https://www.foo.tld/one/two?a=b&c=d#qwe, becomes
-      // https://www.foo.tld/?/one/two&a=b~and~c=d#qwe
-      // Note: this 404.html file must be at least 512 bytes for it to work
-      // with Internet Explorer (it is currently > 512 bytes)
-
-      // If you're creating a Project Pages site and NOT using a custom domain,
-      // then set pathSegmentsToKeep to 1 (enterprise users may need to set it to > 1).
-      // This way the code will only replace the route part of the path, and not
-      // the real directory in which the app resides, for example:
-      // https://username.github.io/repo-name/one/two?a=b&c=d#qwe becomes
-      // https://username.github.io/repo-name/?/one/two&a=b~and~c=d#qwe
-      // Otherwise, leave pathSegmentsToKeep as 0.
-      var pathSegmentsToKeep = 1;
-
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      // This script takes the current URL and fixes any issues with path duplication
+      // Specifically handles the case of /reNamerX/reNamerX/... appearing in the URL
+      
+      window.onload = function() {
+        var path = window.location.pathname;
+        
+        // Handle duplicate basePath
+        if (path.indexOf('/reNamerX/reNamerX/') !== -1) {
+          path = path.replace('/reNamerX/reNamerX/', '/reNamerX/');
+          window.location.href = window.location.origin + path + window.location.search + window.location.hash;
+          return;
+        }
+        
+        // Handle missing pages by redirecting to home page
+        if (path.indexOf('/reNamerX/') !== -1) {
+          // This is a specific page that doesn't exist, redirect to home
+          window.location.href = window.location.origin + '/reNamerX/';
+          return;
+        }
+        
+        // Fallback to home page
+        window.location.href = window.location.origin + '/reNamerX/';
+      };
     </script>
   </head>
   <body>
+    <h2>Redirecting to reNamerX home page...</h2>
   </body>
 </html> 

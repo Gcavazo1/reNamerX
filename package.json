@@ -5,11 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "build:vercel": "next build",
-    "build:github": "cross-env GITHUB_PAGES=true next build",
+    "build:gh": "GITHUB_PAGES=true next build",
     "export": "next export",
-    "deploy:github": "cross-env GITHUB_PAGES=true npm run build:github && gh-pages -d out"
+    "start": "next start",
+    "lint": "next lint"
   },
   "keywords": [
     "reNamerX",

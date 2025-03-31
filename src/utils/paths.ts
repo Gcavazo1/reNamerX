@@ -4,15 +4,10 @@
 
 /**
  * Returns the base path for the application
- * In development, this is an empty string
- * In GitHub Pages, this is '/reNamerX'
- * In Vercel, this is an empty string
+ * We hardcode this to match next.config.js for GitHub Pages
  */
 export const getBasePath = (): string => {
-  // Check if this is a GitHub Pages deployment or if the hostname includes github.io
-  const isGitHubPages = process.env.GITHUB_PAGES === 'true' || 
-    (typeof window !== 'undefined' && window.location.hostname.includes('github.io'));
-  return isGitHubPages ? '/reNamerX' : '';
+  return '/reNamerX';
 };
 
 /**
@@ -20,7 +15,7 @@ export const getBasePath = (): string => {
  */
 export const getFullUrl = (path: string): string => {
   // This should be updated to use the actual domain from environment variable
-  const baseDomain = process.env.NEXT_PUBLIC_SITE_URL || 'https://renamerx.app';
+  const baseDomain = 'https://gcavazo1.github.io';
   const basePath = getBasePath();
   
   // Ensure path starts with a slash
@@ -31,21 +26,10 @@ export const getFullUrl = (path: string): string => {
 
 /**
  * Returns a path with the base path prepended
- * SIMPLIFIED VERSION - guaranteed not to duplicate base paths
+ * This now assumes all input paths are relative and should have the base path added
  */
 export const withBasePath = (path: string): string => {
-  // Get our base path (/reNamerX or '')
   const basePath = getBasePath();
-  
-  // If there's no base path or we're not on GitHub Pages, just return the path normalized
-  if (!basePath) {
-    return path === '/' ? '/' : (path.startsWith('/') ? path : `/${path}`);
-  }
-  
-  // Log for debugging
-  if (typeof window !== 'undefined' && path.includes(basePath)) {
-    console.warn('withBasePath received path that already contains basePath:', path);
-  }
   
   // For root path, just return the base path
   if (!path || path === '/') return basePath;
@@ -53,7 +37,7 @@ export const withBasePath = (path: string): string => {
   // Strip any leading slashes from the path
   const cleanPath = path.startsWith('/') ? path.substring(1) : path;
   
-  // STRICT CHECK: Remove any instances of the basePath (without the leading slash)
+  // Remove any instances of the repo name if already there (without the leading slash)
   // This ensures we never get /reNamerX/reNamerX/docs
   const basePathWithoutSlash = basePath.substring(1);
   const fullyCleanedPath = cleanPath.startsWith(basePathWithoutSlash + '/') 

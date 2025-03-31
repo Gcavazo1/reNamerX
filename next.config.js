@@ -10,10 +10,10 @@ const nextConfig = {
     unoptimized: true,
   },
   
-  // Deployment settings
-  // Use conditional configuration based on deployment target
-  basePath: process.env.GITHUB_PAGES === 'true' ? '/reNamerX' : '',
-  assetPrefix: process.env.GITHUB_PAGES === 'true' ? '/reNamerX/' : '',
+  // Deployment settings - HARDCODE for GitHub Pages
+  // Don't use conditional here because it causes inconsistency at runtime
+  basePath: '/reNamerX',
+  assetPrefix: '/reNamerX/',
   
   // Static HTML export (only needed for GitHub Pages, Vercel handles this automatically)
   output: 'export',
