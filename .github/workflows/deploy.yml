@@ -22,22 +22,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v2
       - name: Build with Next.js
         run: npm run build:github
         env:
           GITHUB_PAGES: 'true'
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./out
 
@@ -50,4 +50,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v3 
+        uses: actions/deploy-pages@v1 
