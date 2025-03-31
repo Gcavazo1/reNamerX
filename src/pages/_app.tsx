@@ -136,6 +136,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href={`${getBasePath()}/images/renamerx_favicon_image.png`} />
         <meta name="theme-color" content="#121212" />
         
+        {/* Preload critical images */}
+        <link rel="preload" href={`${getBasePath()}/images/reNamerX_heroBackground.png`} as="image" />
+        
         {/* Enhanced SEO Tags */}
         <meta name="keywords" content="file renamer, batch rename, file management, Windows utility, bulk rename" />
         <meta name="author" content="Gabriel Cavazos (GigaCode)" />
@@ -186,6 +189,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <style jsx global>{`
         :root {
           --font-inter: ${inter.style.fontFamily};
+        }
+        
+        /* Direct CSS for hero background */
+        .bg-hero-pattern {
+          background-image: url('${getBasePath()}/images/reNamerX_heroBackground.png') !important;
         }
       `}</style>
       
