@@ -57,29 +57,41 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     // This script checks if we are being redirected from the 404.html page
-    // with a specially formatted URL and reconstructs the proper URL
     if (typeof window !== 'undefined') {
-      // If we're on a GitHub Pages site and redirected from a deep link
-      const redirectMatch = window.location.search.match(/\?\/(.*)/);
-      
-      if (redirectMatch && redirectMatch[1]) {
-        const redirectPath = redirectMatch[1];
+      // Parse the query string
+      const query = window.location.search.substring(1);
+      const shouldRedirect = query.includes('?/');
+
+      if (shouldRedirect) {
+        // Find the path after ?/
+        const redirectPath = query.split('?/')[1];
         console.log('SPA redirect detected to path:', redirectPath);
         
-        // Remove the ?/ part and reconstruct the URL properly
+        // Get the repository name from the pathname
+        const pathParts = window.location.pathname.split('/');
+        const repoPath = pathParts[1] ? '/' + pathParts[1] : '';
+        
+        // Reconstruct the proper URL
         const cleanUrl = window.location.protocol + '//' + 
-                       window.location.host + 
-                       window.location.pathname.replace(/\/$/, '');
-                       
-        // Update the URL without the special query parameter
-        window.history.replaceState(null, '', 
-          cleanUrl + '/' + redirectPath.replace(/~and~/g, '&') + window.location.hash
+                        window.location.host + 
+                        repoPath;
+        
+        // Clean up any double slashes and handle query parameters
+        const finalPath = redirectPath
+          .replace(/~and~/g, '&')
+          .replace(/^\/+/, '');
+        
+        // Update the browser URL without triggering navigation
+        window.history.replaceState(
+          null, 
+          '', 
+          `${cleanUrl}/${finalPath}${window.location.hash}`
         );
         
-        // Navigate to the proper route
-        console.log('Navigating to cleaned path:', '/' + redirectPath);
+        // Navigate using Next.js router
+        console.log('Navigating to cleaned path:', '/' + finalPath);
         setTimeout(() => {
-          router.push('/' + redirectPath);
+          router.push('/' + finalPath);
         }, 100);
       }
     }
