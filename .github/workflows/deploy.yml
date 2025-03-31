@@ -54,7 +54,7 @@ jobs:
         uses: actions/configure-pages@v4
       
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v1.0.1
         with:
           path: 'out' # Ensure Next.js outputs to this folder
       
