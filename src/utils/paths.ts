@@ -6,7 +6,22 @@
  * Returns the base path for the application
  */
 export const getBasePath = (): string => {
-  return '/reNamerX';
+  // Only use the /reNamerX base path when deployed to GitHub Pages
+  if (typeof window !== 'undefined') {
+    // Check if we're on GitHub Pages
+    if (window.location.hostname === 'gcavazo1.github.io') {
+      return '/reNamerX';
+    }
+    // On Vercel or other platforms
+    return '';
+  }
+  
+  // During SSR, check environment variable
+  if (process.env.GITHUB_PAGES === 'true') {
+    return '/reNamerX';
+  }
+  
+  return '';
 };
 
 /**

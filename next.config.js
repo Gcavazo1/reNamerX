@@ -9,13 +9,13 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  
-  // GitHub Pages configuration
-  basePath: '/reNamerX',
-  assetPrefix: '/reNamerX/',
-  
-  // Static HTML export for GitHub Pages
-  output: 'export',
+}
+
+// Add GitHub Pages specific configuration only when deploying to GitHub Pages
+if (process.env.GITHUB_PAGES === 'true') {
+  nextConfig.basePath = '/reNamerX';
+  nextConfig.assetPrefix = '/reNamerX/';
+  nextConfig.output = 'export';
 }
 
 module.exports = nextConfig 
