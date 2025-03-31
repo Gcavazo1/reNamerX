@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { getBasePath, getFullUrl, withBasePath } from '@/utils/paths'
+import { getBasePath, getFullUrl } from '@/utils/paths'
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -23,13 +23,13 @@ const MainLayout = ({
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <link rel="icon" href={withBasePath('/images/renamerx_favicon_image.png')} />
+        <link rel="icon" href={`${getBasePath()}/images/renamerx_favicon_image.png`} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={getFullUrl(router.asPath)} />
-        <meta property="og:image" content={withBasePath('/images/renamerx-screenshot.jpg')} />
+        <meta property="og:image" content={`${getBasePath()}/images/renamerx-screenshot.jpg`} />
       </Head>
 
       <div className="flex flex-col min-h-screen">

@@ -202,7 +202,7 @@ const Home = () => {
             <div className="lg:w-1/2 relative">
               <div className="app-screenshot-container">
                 <Image
-                  src={`${withBasePath('/images/renamerx-screenshot.jpg')}`}
+                  src={`${getBasePath()}/images/renamerx-screenshot.jpg`}
                   alt="reNamerX Application Screenshot"
                   width={800}
                   height={500}

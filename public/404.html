@@ -4,27 +4,24 @@
     <meta charset="utf-8">
     <title>Page not found - reNamerX</title>
     <script type="text/javascript">
-      // This script takes the current URL and fixes any issues with path duplication
-      // Specifically handles the case of /reNamerX/reNamerX/... appearing in the URL
-      
+      // Fix duplicate basePath issues and redirect to home page for 404s
       window.onload = function() {
         var path = window.location.pathname;
         
-        // Handle duplicate basePath
+        // Fix duplicate basePath
         if (path.indexOf('/reNamerX/reNamerX/') !== -1) {
           path = path.replace('/reNamerX/reNamerX/', '/reNamerX/');
           window.location.href = window.location.origin + path + window.location.search + window.location.hash;
           return;
         }
         
-        // Handle missing pages by redirecting to home page
-        if (path.indexOf('/reNamerX/') !== -1) {
-          // This is a specific page that doesn't exist, redirect to home
+        // If it's a 404 under the correct basePath, just go home
+        if (path.indexOf('/reNamerX/') === 0) {
           window.location.href = window.location.origin + '/reNamerX/';
           return;
         }
         
-        // Fallback to home page
+        // Default fallback
         window.location.href = window.location.origin + '/reNamerX/';
       };
     </script>

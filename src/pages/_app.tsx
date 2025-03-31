@@ -133,7 +133,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>reNamerX - Advanced File Renaming Tool</title>
         <meta name="description" content="reNamerX is a powerful file renaming utility for Windows that helps you rename multiple files quickly and efficiently." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href={withBasePath('/images/renamerx_favicon_image.png')} />
+        <link rel="icon" href={`${getBasePath()}/images/renamerx_favicon_image.png`} />
         <meta name="theme-color" content="#121212" />
         
         {/* Enhanced SEO Tags */}
@@ -146,7 +146,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="og:type" content="website" />
         <meta property="og:title" content="reNamerX - Advanced File Renaming Tool" />
         <meta property="og:description" content="Powerful batch file renaming utility for Windows. Rename hundreds of files in seconds with precision and control." />
-        <meta property="og:image" content={withBasePath('/images/renamerx-screenshot.jpg')} />
+        <meta property="og:image" content={`${getBasePath()}/images/renamerx-screenshot.jpg`} />
         <meta property="og:url" content={getFullUrl(router.asPath)} />
         <meta property="og:site_name" content="reNamerX" />
         
@@ -154,7 +154,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="reNamerX - Advanced File Renaming Tool" />
         <meta name="twitter:description" content="Powerful batch file renaming utility for Windows. Rename hundreds of files in seconds with precision and control." />
-        <meta name="twitter:image" content={withBasePath('/images/renamerx-screenshot.jpg')} />
+        <meta name="twitter:image" content={`${getBasePath()}/images/renamerx-screenshot.jpg`} />
         <meta name="twitter:creator" content="@GigaCodeDev" />
         
         {/* Structured Data / JSON-LD */}

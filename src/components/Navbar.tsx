@@ -64,7 +64,7 @@ const Navbar = () => {
             <SafeLink 
               href="/" 
               className={`text-gray-200 hover:text-white transition-colors ${
-                router.pathname === '/' || router.pathname === withBasePath('/') ? 'font-medium' : ''
+                router.pathname === '/' || router.pathname === '/reNamerX' || router.pathname === '/reNamerX/' ? 'font-medium' : ''
               }`}
             >
               Home
@@ -80,7 +80,7 @@ const Navbar = () => {
             <SafeLink 
               href="/download" 
               className={`text-gray-200 hover:text-white transition-colors ${
-                router.pathname === '/download' || router.pathname === withBasePath('/download') ? 'font-medium' : ''
+                router.pathname.includes('/download') ? 'font-medium' : ''
               }`}
             >
               Downloads
@@ -122,7 +122,7 @@ const Navbar = () => {
           <SafeLink 
             href="/" 
             className={`block px-3 py-2 rounded-md text-gray-200 hover:text-white hover:bg-gray-900 transition-colors ${
-              router.pathname === '/' || router.pathname === withBasePath('/') ? 'font-medium' : ''
+              router.pathname === '/' || router.pathname === '/reNamerX' || router.pathname === '/reNamerX/' ? 'font-medium' : ''
             }`}
             onClick={closeMenu}
           >
@@ -140,7 +140,7 @@ const Navbar = () => {
           <SafeLink 
             href="/download" 
             className={`block px-3 py-2 rounded-md text-gray-200 hover:text-white hover:bg-gray-900 transition-colors ${
-              router.pathname === '/download' || router.pathname === withBasePath('/download') ? 'font-medium' : ''
+              router.pathname.includes('/download') ? 'font-medium' : ''
             }`}
             onClick={closeMenu}
           >

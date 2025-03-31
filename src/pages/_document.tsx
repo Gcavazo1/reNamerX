@@ -2,7 +2,6 @@ import { Html, Head, Main, NextScript } from 'next/document'
 import { getBasePath } from '@/utils/paths'
 
 export default function Document() {
-  // Get the basePath for GitHub Pages
   const basePath = getBasePath();
   
   return (
@@ -12,9 +11,8 @@ export default function Document() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* Ensure the font paths include the basePath */}
+        {/* Font definitions with basePath for GitHub Pages */}
         <style dangerouslySetInnerHTML={{ __html: `
-          /* Custom font definitions */
           @font-face {
             font-family: 'Modern Girl';
             font-style: normal;
@@ -55,9 +53,8 @@ export default function Document() {
               // Set base path for assets
               window.basePath = "${basePath}";
               
-              // Fix any absolute paths to include basePath
+              // Fix background images with basePath
               document.addEventListener('DOMContentLoaded', function() {
-                // Fix background images
                 const heroElements = document.querySelectorAll('.bg-hero-pattern');
                 heroElements.forEach(el => {
                   const style = getComputedStyle(el);
@@ -67,9 +64,6 @@ export default function Document() {
                     el.style.backgroundImage = bgImage;
                   }
                 });
-                
-                // Log for debugging
-                console.log('[Document] Initialized with basePath:', window.basePath);
               });
             `,
           }}
