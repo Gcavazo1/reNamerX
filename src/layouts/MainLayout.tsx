@@ -25,6 +25,7 @@ const MainLayout = ({
         <meta name="description" content={description} />
         <link rel="icon" href={`${getBasePath()}/images/renamerx_favicon_image.png`} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preload" href={`${getBasePath()}/images/reNamerX_heroBackground.png`} as="image" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
