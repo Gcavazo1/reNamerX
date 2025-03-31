@@ -120,7 +120,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://github.com/Gcavazo1/reNamerX/blob/main/LICENSE"
+                  href="https://github.com/Gcavazo1/reNamerX/blob/master/LICENSE"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer-link"
