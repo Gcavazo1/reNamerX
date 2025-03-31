@@ -23,19 +23,33 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      
+      # Add this explicitly to resolve dependency issue
+      - name: Setup upload-artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dummy-artifact
+          path: ./
+          retention-days: 1
+          if-no-files-found: ignore
+      
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm'
+      
       - name: Install dependencies
         run: npm ci
+      
       - name: Setup Pages
         uses: actions/configure-pages@v2
+      
       - name: Build with Next.js
         run: npm run build:github
         env:
           GITHUB_PAGES: 'true'
+      
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
