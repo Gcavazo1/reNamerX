@@ -13,6 +13,13 @@ export default function Document() {
         
         {/* Simple font definitions - no fancy handling */}
         <link rel="stylesheet" href={`${basePath}/fonts/fonts.css`} />
+        
+        {/* Fix for hero background image */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          .bg-hero-pattern {
+            background-image: url('${basePath}/images/reNamerX_heroBackground.png') !important;
+          }
+        `}} />
       </Head>
       <body className="bg-background text-text-primary antialiased">
         <Main />
