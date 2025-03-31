@@ -10,6 +10,7 @@ import { FaGithub, FaDownload, FaArrowRight, FaCode } from 'react-icons/fa'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { withBasePath } from '@/utils/paths'
+import SafeLink from '@/components/SafeLink'
 
 const Home = () => {
   const router = useRouter()
@@ -68,20 +69,20 @@ const Home = () => {
               Rename hundreds of files in seconds with precision and control. Built for efficiency with a modern cyberpunk interface.
             </p>
             <div className="flex flex-wrap gap-4 mt-6">
-              <Link 
-                href={withBasePath('/download')}
+              <SafeLink 
+                href="/download"
                 className="cyberpunk-button font-modern-girl"
               >
                 <FaDownload className="mr-2" />
                 DOWNLOAD NOW
-              </Link>
-              <Link
-                href={withBasePath('/docs')}
+              </SafeLink>
+              <SafeLink
+                href="/docs"
                 className="cyberpunk-button-outline font-modern-girl"
               >
                 <FaCode className="mr-2" />
                 DOCUMENTATION
-              </Link>
+              </SafeLink>
             </div>
             <div className="flex space-x-3 mt-6">
               <div className="status-badge status-badge-version font-wilma">
@@ -159,13 +160,13 @@ const Home = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Link
-              href={withBasePath('/docs/features')}
+            <SafeLink
+              href="/docs/features"
               className="inline-flex items-center text-primary hover:text-primary-dark font-medium font-modern-girl transition-colors"
             >
               <span>See all features</span>
               <FaArrowRight className="ml-2" />
-            </Link>
+            </SafeLink>
           </div>
         </div>
       </section>
@@ -224,13 +225,13 @@ const Home = () => {
               Join thousands of users who have streamlined their file management workflow.
             </p>
             <div className="cta-button-container">
-              <Link
-                href={withBasePath('/download')}
+              <SafeLink
+                href="/download"
                 className="cyberpunk-button font-modern-girl"
               >
                 <FaDownload className="mr-2" />
                 DOWNLOAD NOW
-              </Link>
+              </SafeLink>
               <a
                 href="https://github.com/Gcavazo1/reNamerX"
                 target="_blank"

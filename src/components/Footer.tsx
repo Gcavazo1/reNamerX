@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { FaGithub, FaTwitter, FaHeart, FaLinkedin } from 'react-icons/fa'
 import { withBasePath } from '@/utils/paths'
+import SafeLink from './SafeLink'
 
 const currentYear = new Date().getFullYear()
 
@@ -11,11 +12,11 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <Link href={withBasePath('/')} className="footer-logo">
+            <SafeLink href="/" className="footer-logo">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 to-pink-500">re</span>
               <span className="text-white">Namer</span>
               <span style={{ color: "#ffcc00" }}>X</span>
-            </Link>
+            </SafeLink>
             <p className="text-gray-400 mb-4 font-wilma">
               Powerful batch file renaming tool for Windows, macOS, and Linux. Rename multiple files with patterns, counters, and more.
             </p>
@@ -54,36 +55,36 @@ export default function Footer() {
             <h3 className="footer-heading">Documentation</h3>
             <ul className="space-y-2 font-wilma">
               <li>
-                <Link
-                  href={withBasePath('/docs/getting-started')}
+                <SafeLink
+                  href="/docs/getting-started"
                   className="footer-link"
                 >
                   Getting Started
-                </Link>
+                </SafeLink>
               </li>
               <li>
-                <Link
-                  href={withBasePath('/docs/features')}
+                <SafeLink
+                  href="/docs/features"
                   className="footer-link"
                 >
                   Features
-                </Link>
+                </SafeLink>
               </li>
               <li>
-                <Link
-                  href={withBasePath('/docs/usage-guide')}
+                <SafeLink
+                  href="/docs/usage-guide"
                   className="footer-link"
                 >
                   Usage Guide
-                </Link>
+                </SafeLink>
               </li>
               <li>
-                <Link
-                  href={withBasePath('/docs/faq')}
+                <SafeLink
+                  href="/docs/faq"
                   className="footer-link"
                 >
                   FAQ
-                </Link>
+                </SafeLink>
               </li>
             </ul>
           </div>
@@ -92,20 +93,20 @@ export default function Footer() {
             <h3 className="footer-heading">Links</h3>
             <ul className="space-y-2 font-wilma">
               <li>
-                <Link
-                  href={withBasePath('/download')}
+                <SafeLink
+                  href="/download"
                   className="footer-link"
                 >
                   Download
-                </Link>
+                </SafeLink>
               </li>
               <li>
-                <Link
-                  href={withBasePath('/contact')}
+                <SafeLink
+                  href="/contact"
                   className="footer-link"
                 >
                   Contact
-                </Link>
+                </SafeLink>
               </li>
               <li>
                 <a
