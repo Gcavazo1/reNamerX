@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Asset Test Page</title>
+  <style>
+    @font-face {
+      font-family: 'Modern Girl';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('/reNamerX/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
+    }
+    
+    body {
+      font-family: 'Modern Girl', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #121212;
+      color: white;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+    }
+    
+    .image-container {
+      margin: 20px;
+      border: 1px solid #444;
+      padding: 10px;
+    }
+    
+    img {
+      max-width: 800px;
+      display: block;
+    }
+    
+    .file-path {
+      margin-top: 10px;
+      font-family: monospace;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>Asset Testing</h1>
+  
+  <div class="image-container">
+    <h2>Hero Background Image</h2>
+    <img src="/reNamerX/images/reNamerX_heroBackground.png" alt="Hero Background">
+    <div class="file-path">/reNamerX/images/reNamerX_heroBackground.png</div>
+  </div>
+  
+  <div class="image-container">
+    <h2>Font Test - Modern Girl</h2>
+    <p style="font-family: 'Modern Girl', sans-serif; font-size: 32px;">
+      This text should use the Modern Girl font
+    </p>
+    <div class="file-path">/reNamerX/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf</div>
+  </div>
+  
+  <div class="image-container">
+    <h2>Other Image Test</h2>
+    <img src="/reNamerX/images/renamerx-screenshot.jpg" alt="Screenshot">
+    <div class="file-path">/reNamerX/images/renamerx-screenshot.jpg</div>
+  </div>
+  
+  <script>
+    // Output the actual resolved paths
+    document.querySelectorAll('img').forEach(img => {
+      const pathDiv = img.nextElementSibling;
+      pathDiv.textContent = `${pathDiv.textContent} (Resolved: ${img.src})`;
+    });
+  </script>
+</body>
+</html> 
