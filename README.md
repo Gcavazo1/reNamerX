@@ -7,6 +7,11 @@
 
 A powerful desktop file batch renaming application developed by Gabriel Cavazos (GigaCode).
 
+## Official Websites
+
+- **Main Site (GitHub Pages)**: [https://gcavazo1.github.io/reNamerX/](https://gcavazo1.github.io/reNamerX/)
+- **Alternative Site (Vercel)**: [https://re-namer-x.vercel.app/](https://re-namer-x.vercel.app/)
+
 ![reNamerX Screenshot](https://raw.githubusercontent.com/Gcavazo1/reNamerX/master/src/assets/Screenshot_00.jpg)
 
 ## Features
@@ -29,6 +34,8 @@ A powerful desktop file batch renaming application developed by Gabriel Cavazos 
 3. Run the installer and follow the installation wizard
 4. Launch reNamerX from the Start Menu or desktop shortcut
 
+For detailed installation instructions, visit our [Getting Started Guide](https://gcavazo1.github.io/reNamerX/docs/getting-started).
+
 ## Usage
 
 ### Basic Workflow
@@ -38,6 +45,8 @@ A powerful desktop file batch renaming application developed by Gabriel Cavazos 
 3. Preview changes in real-time
 4. Click "Apply" to execute the rename operation
 5. Use Ctrl+Z to undo operations if needed
+
+For full documentation, visit our [Usage Guide](https://gcavazo1.github.io/reNamerX/docs/usage-guide).
 
 ## Keyboard Shortcuts
 
@@ -84,6 +93,10 @@ npm run tauri build
 The installers will be created in:
 - `src-tauri/target/release/bundle/msi/` (MSI installer)
 - `src-tauri/target/release/bundle/nsis/` (EXE installer)
+
+## Changelog
+
+For a detailed list of changes in each version, visit our [Changelog](https://gcavazo1.github.io/reNamerX/changelog).
 
 ## License
 
