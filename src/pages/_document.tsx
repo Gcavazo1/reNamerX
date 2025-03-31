@@ -11,8 +11,12 @@ export default function Document() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* Font definitions with basePath for GitHub Pages */}
+        {/* Font definitions with basePath for both platforms */}
         <style dangerouslySetInnerHTML={{ __html: `
+          :root {
+            --base-path: '${basePath}';
+          }
+          
           @font-face {
             font-family: 'Modern Girl';
             font-style: normal;
