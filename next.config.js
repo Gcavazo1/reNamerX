@@ -10,12 +10,13 @@ const nextConfig = {
     unoptimized: true,
   },
   
-  // GitHub Pages deployment settings
-  basePath: process.env.NODE_ENV === 'production' ? '/reNamerX' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/reNamerX' : '',
+  // Deployment settings
+  // Use conditional configuration based on deployment target
+  basePath: process.env.GITHUB_PAGES === 'true' ? '/reNamerX' : '',
+  assetPrefix: process.env.GITHUB_PAGES === 'true' ? '/reNamerX' : '',
   
-  // Static HTML export
-  output: 'export',
+  // Static HTML export (only needed for GitHub Pages, Vercel handles this automatically)
+  output: process.env.GITHUB_PAGES === 'true' ? 'export' : undefined,
 }
 
 module.exports = nextConfig 
