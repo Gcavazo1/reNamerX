@@ -1,0 +1,688 @@
+@import '../theme/variables.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Font Declarations */
+@font-face {
+  font-family: 'Modern Girl';
+  src: url('/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Modern Girl';
+  src: url('/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Wilma Mankiller';
+  src: url('/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Wilma Mankiller';
+  src: url('/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary;
+    font-family: 'Wilma Mankiller', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-text-primary;
+    font-family: 'Modern Girl', sans-serif;
+  }
+  
+  p {
+    @apply text-text-secondary;
+    font-family: 'Wilma Mankiller', sans-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-dark text-text-inverse font-medium py-2 px-4 rounded-lg transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-background-alt hover:bg-background-alt-dark text-text-primary font-medium py-2 px-4 rounded-lg border border-border transition-colors;
+  }
+  
+  .markdown-content {
+    @apply text-text-secondary;
+  }
+  
+  .markdown-content h1 {
+    @apply text-3xl font-bold mb-4 text-text-primary;
+  }
+  
+  .markdown-content h2 {
+    @apply text-2xl font-bold mt-8 mb-4 text-text-primary;
+  }
+  
+  .markdown-content h3 {
+    @apply text-xl font-bold mt-6 mb-3 text-text-primary;
+  }
+  
+  .markdown-content h4 {
+    @apply text-lg font-bold mt-4 mb-2 text-text-primary;
+  }
+  
+  .markdown-content p {
+    @apply mb-4 text-text-secondary;
+  }
+  
+  .markdown-content a {
+    @apply text-primary hover:text-primary-dark underline;
+  }
+  
+  .markdown-content ul {
+    @apply list-disc pl-6 mb-4;
+  }
+  
+  .markdown-content ol {
+    @apply list-decimal pl-6 mb-4;
+  }
+  
+  .markdown-content li {
+    @apply mb-1;
+  }
+  
+  .markdown-content blockquote {
+    @apply border-l-4 border-primary pl-4 italic text-text-tertiary mb-4;
+  }
+  
+  .markdown-content hr {
+    @apply my-6 border-border;
+  }
+  
+  .markdown-content code:not(pre code) {
+    @apply bg-background-alt px-1 py-0.5 rounded text-primary font-mono;
+  }
+
+  /* Hero section */
+  .hero-section {
+    @apply relative min-h-[650px] h-screen flex items-center bg-hero-pattern bg-cover bg-center text-text-primary p-4;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    @apply absolute inset-0;
+    background: linear-gradient(90deg, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.4) 100%);
+    z-index: 1;
+  }
+
+  .hero-content {
+    @apply relative z-10 flex flex-col items-start justify-center;
+    width: 100%;
+    max-width: 7xl;
+    padding-left: 4%;
+  }
+
+  .hero-title {
+    @apply text-6xl md:text-8xl font-bold mb-6;
+    text-shadow: 
+      0 0 15px rgba(0, 204, 255, 0.6),
+      0 0 30px rgba(0, 204, 255, 0.3);
+    line-height: 1.1;
+    font-family: 'Modern Girl', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  .hero-title-highlight {
+    @apply text-transparent bg-clip-text;
+    background-image: linear-gradient(to right, #00ccff 20%, #0099ff);
+  }
+
+  .hero-subtitle {
+    @apply text-4xl md:text-5xl font-bold mb-6;
+    text-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    background-image: linear-gradient(to right, #ff00cc, #7928ca, #00ccff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    font-family: 'Modern Girl', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-description {
+    @apply text-lg md:text-xl mb-8 max-w-2xl text-gray-200;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+    font-family: 'Wilma Mankiller', sans-serif;
+    line-height: 1.6;
+  }
+
+  /* Cyberpunk styling */
+  .cyberpunk-text {
+    @apply relative text-text-primary;
+    text-shadow: 
+      0 0 5px rgba(0, 204, 255, 0.8),
+      0 0 10px rgba(0, 204, 255, 0.3);
+    font-family: 'Modern Girl', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .cyberpunk-button {
+    @apply relative flex items-center justify-center font-bold py-3 px-8 rounded-md uppercase tracking-wider transition-all duration-200 overflow-hidden;
+    background: linear-gradient(to right, #00ccff, #0099ff);
+    color: #000000;
+    box-shadow: 
+      0 0 15px rgba(0, 204, 255, 0.7),
+      0 0 30px rgba(0, 204, 255, 0.3);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    font-family: 'Modern Girl', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  .cyberpunk-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%
+    );
+    transition: left 0.7s ease;
+  }
+
+  .cyberpunk-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 0 20px rgba(0, 204, 255, 0.8),
+      0 0 40px rgba(0, 204, 255, 0.4);
+  }
+
+  .cyberpunk-button:hover::before {
+    left: 100%;
+  }
+
+  .cyberpunk-button:active {
+    transform: translateY(1px);
+    box-shadow: 
+      0 0 10px rgba(0, 204, 255, 0.6),
+      0 0 20px rgba(0, 204, 255, 0.3);
+  }
+
+  .cyberpunk-button-outline {
+    @apply relative flex items-center justify-center bg-transparent border-2 font-bold py-3 px-8 rounded-md uppercase tracking-wider transition-all duration-200 overflow-hidden;
+    border-color: #ff00cc;
+    color: #ff00cc;
+    box-shadow: 
+      0 0 10px rgba(255, 0, 204, 0.5),
+      inset 0 0 5px rgba(255, 0, 204, 0.3);
+    text-shadow: 0 0 5px rgba(255, 0, 204, 0.7);
+    font-family: 'Modern Girl', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  .cyberpunk-button-outline:hover {
+    @apply text-white;
+    box-shadow: 
+      0 0 15px rgba(255, 0, 204, 0.7),
+      inset 0 0 10px rgba(255, 0, 204, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .cyberpunk-button-outline:active {
+    transform: translateY(1px);
+  }
+
+  /* Status indicators */
+  .status-badge {
+    @apply inline-flex items-center justify-center px-2.5 py-0.5 rounded-md text-sm font-medium;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    font-family: 'Wilma Mankiller', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .status-badge-version {
+    color: #00ccff;
+    border: 1px solid #00ccff;
+    box-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
+  }
+
+  .status-badge-downloads {
+    color: #ff9900;
+    border: 1px solid #ff9900;
+    box-shadow: 0 0 5px rgba(255, 153, 0, 0.5);
+  }
+
+  .status-badge-license {
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  }
+
+  .cyberpunk-card {
+    @apply bg-background-alt rounded-lg p-6 shadow-md relative overflow-hidden h-full;
+    background-color: rgba(16, 16, 24, 0.9);
+    border: 1px solid rgba(0, 204, 255, 0.1);
+    box-shadow: 
+      0 4px 6px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(0, 204, 255, 0.1),
+      0 0 15px rgba(0, 204, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .cyberpunk-card h3 {
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
+  }
+
+  .cyberpunk-card p {
+    color: rgba(220, 220, 220, 0.9);
+  }
+
+  .cyberpunk-card::before {
+    content: '';
+    @apply absolute top-0 left-0 w-1 h-full;
+    background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    transition: width 0.3s ease;
+  }
+
+  .cyberpunk-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+      0 10px 15px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(0, 204, 255, 0.2),
+      0 0 20px rgba(0, 204, 255, 0.2);
+  }
+
+  .cyberpunk-card:hover::before {
+    width: 4px;
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+  }
+
+  .cyberpunk-card:hover h3 {
+    text-shadow: 0 0 8px rgba(0, 204, 255, 0.7);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px currentColor;
+  }
+
+  /* Container utility */
+  .container {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Shadow glow utility */
+  .hover\:shadow-glow:hover {
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+  }
+
+  /* Feature list with cyberpunk checkmarks */
+  .feature-list {
+    @apply space-y-4 mb-6;
+  }
+
+  .feature-list li {
+    @apply flex items-start text-gray-200;
+    font-family: 'Wilma Mankiller', sans-serif;
+    transition: transform 0.2s ease;
+  }
+
+  .feature-list li:hover {
+    transform: translateX(5px);
+  }
+
+  .feature-list .check-icon {
+    @apply mr-3 text-cyan-400;
+    text-shadow: 0 0 8px rgba(0, 204, 255, 0.8);
+    filter: drop-shadow(0 0 3px rgba(0, 204, 255, 0.5));
+  }
+
+  /* App screenshot styling */
+  .app-screenshot-container {
+    @apply relative overflow-hidden rounded-lg border;
+    border-color: rgba(0, 204, 255, 0.3);
+    box-shadow: 
+      0 0 20px rgba(0, 0, 0, 0.8),
+      0 0 30px rgba(0, 204, 255, 0.2);
+    transition: all 0.4s ease;
+  }
+
+  .app-screenshot-container:hover {
+    transform: scale(1.02);
+    box-shadow: 
+      0 0 25px rgba(0, 0, 0, 0.9),
+      0 0 40px rgba(0, 204, 255, 0.3);
+  }
+
+  .app-screenshot-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    z-index: 5;
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.8);
+  }
+
+  .app-screenshot-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
+    z-index: 5;
+    box-shadow: 0 0 15px rgba(255, 0, 204, 0.8);
+  }
+
+  .screen-glow {
+    @apply absolute inset-0 pointer-events-none;
+    background: radial-gradient(
+      circle at center,
+      transparent 70%,
+      rgba(0, 204, 255, 0.1) 100%
+    );
+  }
+
+  /* Section heading with enhanced styling */
+  .section-heading {
+    @apply text-3xl md:text-4xl font-bold mb-6;
+    text-shadow: 
+      0 0 10px rgba(0, 204, 255, 0.5),
+      0 0 20px rgba(0, 204, 255, 0.3);
+    font-family: 'Modern Girl', sans-serif;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, var(--color-primary), transparent);
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+  }
+
+  /* CTA Section styling */
+  .cta-section {
+    @apply py-16 relative overflow-hidden;
+    background-color: rgba(16, 16, 24, 0.9);
+    border-top: 1px solid rgba(0, 204, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 204, 255, 0.1);
+  }
+
+  .cta-section::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full;
+    background: 
+      linear-gradient(135deg, rgba(0, 204, 255, 0.03) 0%, transparent 100%),
+      radial-gradient(circle at 80% 20%, rgba(255, 0, 204, 0.05) 0%, transparent 50%);
+    z-index: 0;
+  }
+
+  .cta-heading {
+    @apply text-3xl md:text-4xl font-bold mb-6;
+    text-shadow: 
+      0 0 10px rgba(0, 204, 255, 0.6),
+      0 0 20px rgba(0, 204, 255, 0.3);
+    background-image: linear-gradient(to right, #00ccff, #ffffff, #ff00cc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-family: 'Modern Girl', sans-serif;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  .cta-container {
+    @apply relative z-10 container mx-auto px-4;
+  }
+
+  .cta-button-container {
+    @apply flex flex-wrap justify-center gap-4 mt-8;
+    position: relative;
+  }
+
+  .cta-button-container::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--color-primary), transparent);
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+  }
+
+  /* Footer styling */
+  .footer {
+    @apply bg-black border-t py-12;
+    border-color: rgba(0, 204, 255, 0.1);
+  }
+
+  .footer-heading {
+    @apply text-xl font-bold mb-4;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
+    font-family: 'Modern Girl', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-link {
+    @apply text-gray-400 hover:text-primary transition-colors;
+  }
+
+  .footer-logo {
+    @apply text-2xl font-bold inline-block mb-4;
+    font-family: 'Modern Girl', sans-serif;
+  }
+
+  .footer-copyright {
+    @apply mt-12 pt-8 border-t text-center text-gray-500 text-sm;
+    border-color: rgba(0, 204, 255, 0.1);
+  }
+
+  .footer-love-icon {
+    @apply inline text-red-500 mx-1;
+    filter: drop-shadow(0 0 2px rgba(255, 0, 0, 0.5));
+  }
+
+  .footer-author {
+    @apply hover:text-primary transition-colors;
+  }
+
+  /* Documentation page specific styling */
+  .doc-card {
+    @apply relative overflow-hidden rounded-lg p-6 bg-background-alt h-full transition-all duration-300;
+    background-color: rgba(10, 10, 15, 0.8);
+    border: 1px solid rgba(0, 204, 255, 0.15);
+    box-shadow: 
+      0 4px 20px -5px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(0, 204, 255, 0.1),
+      0 0 15px rgba(0, 204, 255, 0.1);
+  }
+  
+  .doc-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
+    opacity: 0.7;
+    transition: width 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .doc-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+      0 10px 25px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(0, 204, 255, 0.2),
+      0 0 20px rgba(0, 204, 255, 0.2);
+    border-color: rgba(0, 204, 255, 0.3);
+  }
+  
+  .doc-card:hover::before {
+    width: 6px;
+    opacity: 1;
+  }
+  
+  .doc-section-title {
+    @apply text-3xl md:text-4xl font-bold mb-8 text-center;
+    text-shadow: 
+      0 0 10px rgba(0, 204, 255, 0.6),
+      0 0 20px rgba(0, 204, 255, 0.3);
+    font-family: 'Modern Girl', sans-serif;
+    letter-spacing: 1px;
+    background-image: linear-gradient(to right, rgba(0, 204, 255, 1), rgba(255, 255, 255, 0.9), rgba(255, 0, 204, 1));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+  }
+  
+  .doc-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+  }
+  
+  .doc-icon {
+    @apply p-3 rounded-full;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 
+      0 0 0 1px rgba(0, 204, 255, 0.3),
+      0 0 10px rgba(0, 204, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .doc-card:hover .doc-icon {
+    transform: scale(1.1);
+    box-shadow: 
+      0 0 0 1px rgba(0, 204, 255, 0.5),
+      0 0 15px rgba(0, 204, 255, 0.4);
+  }
+  
+  .doc-content {
+    @apply py-16 px-4 md:px-8 bg-black;
+    background: radial-gradient(circle at 70% 30%, rgba(0, 204, 255, 0.03), transparent 70%),
+               radial-gradient(circle at 30% 70%, rgba(255, 0, 204, 0.03), transparent 70%),
+               rgba(10, 10, 15, 0.95);
+    border-top: 1px solid rgba(0, 204, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 204, 255, 0.1);
+  }
+}
+
+/* 
+* CSS Variables for theme - these match the values defined in theme.js
+* This allows us to use the values in both standard CSS and via Tailwind
+*/
+:root {
+  /* Primary colors */
+  --color-primary: #00ccff;
+  --color-primary-dark: #0099cc;
+  --color-primary-light: #66e0ff;
+  
+  /* Secondary colors */
+  --color-secondary: #ff00cc;
+  --color-secondary-dark: #cc0099;
+  --color-secondary-light: #ff66cc;
+  
+  /* Dark theme colors */
+  --color-dark: #0a0a10;
+  --color-dark-lighter: #121218;
+  --color-dark-light: #202030;
+  
+  /* Text colors */
+  --color-text: #ffffff;
+  --color-text-secondary: #cccccc;
+  --color-text-muted: #999999;
+  
+  /* Status colors */
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+}
+
+/* Base styles */
+body {
+  background-color: var(--color-dark);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
+}
+
+/* 
+* Component styles - we're using Tailwind's @apply to maintain consistency
+* while still having reusable component classes
+*/
+
+/* Keyframe animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes text-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  8%, 10% {
+    opacity: 0.8;
+  }
+  20%, 25% {
+    opacity: 0.9;
+  }
+  48%, 50% {
+    opacity: 0.8;
+  }
+  70%, 80% {
+    opacity: 0.9;
+  }
+} 
