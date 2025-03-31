@@ -38,8 +38,11 @@ export const withBasePath = (path: string): string => {
   // Handle empty or root path
   if (!path || path === '/') return basePath || '/';
   
+  // Remove any existing base path from the input path
+  const cleanPath = path.replace(new RegExp(`^${basePath}`, 'i'), '');
+  
   // Ensure path starts with a slash
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const normalizedPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
   
   return `${basePath}${normalizedPath}`;
 }; 
