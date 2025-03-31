@@ -4,26 +4,37 @@
     <meta charset="utf-8">
     <title>reNamerX - Redirecting...</title>
     <script>
-      // Single page apps for GitHub Pages
-      // MIT License
-      // https://github.com/rafgraph/spa-github-pages
-      // This script takes the current URL path and converts it to a path parameter
-      // for the single page app base URL.
-      const pathSegmentsToKeep = 1; // Keeps one segment (/reNamerX/)
-      
-      const l = window.location;
-      const cleanUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '');
-      const baseUrl = cleanUrl + location.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/');
-      const restOfUrl = l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/');
-      const fullUrl = baseUrl + '/?route=' + encodeURIComponent(restOfUrl) + l.search + l.hash;
-      
-      window.history.replaceState(null, null, fullUrl);
-      // Redirect to index.html
-      window.location.href = fullUrl;
+      // For GitHub Pages SPA routing
+      (function() {
+        // Get current location and extract repository name
+        var repo = '/reNamerX';
+        var l = window.location;
+        
+        // Script detects that we're on a GitHub Pages site
+        var isGitHub = l.hostname.includes('github.io');
+        
+        if (isGitHub) {
+          // Extract the path that comes after the repo name
+          var fullPath = l.pathname;
+          var repoPath = repo + '/';
+          var startPos = fullPath.indexOf(repoPath) + repoPath.length;
+          var routePath = fullPath.substring(startPos);
+          
+          // Create the redirect URL with route parameter
+          var redirectUrl = l.protocol + '//' + l.hostname + repo + '/?route=' + 
+                          encodeURIComponent(routePath) + l.search + l.hash;
+          
+          console.log('Redirecting from', fullPath, 'to', redirectUrl);
+          
+          // Redirect to the home page with the route parameter
+          window.location.replace(redirectUrl);
+        }
+      })();
     </script>
   </head>
   <body>
-    <h1>Redirecting...</h1>
-    <p>If you are not redirected automatically, click <a href="/">here</a>.</p>
+    <h1>Page Not Found</h1>
+    <p>Redirecting to homepage...</p>
+    <p>If you are not redirected automatically, <a href="/reNamerX/">click here</a>.</p>
   </body>
 </html> 

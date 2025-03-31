@@ -63,15 +63,28 @@ export default function App({ Component, pageProps }: AppProps) {
       const route = params.get('route');
       const { pathname } = router;
       
-      if (route && pathname === '/') {
-        // Remove the route parameter from the URL
-        const newUrl = window.location.pathname + 
-                      window.location.search.replace(`route=${route}`, '').replace(/\?$/, '') + 
-                      window.location.hash;
+      if (route) {
+        console.log('Found route parameter:', route);
+        
+        // Clean up the URL by removing the route parameter
+        let newUrl = window.location.pathname;
+        if (window.location.search) {
+          const searchParams = new URLSearchParams(window.location.search);
+          searchParams.delete('route');
+          const newSearch = searchParams.toString();
+          newUrl += newSearch ? `?${newSearch}` : '';
+        }
+        newUrl += window.location.hash;
+        
+        // Update the URL without triggering a navigation
         window.history.replaceState(null, '', newUrl);
         
-        // Navigate to the route
-        router.push('/' + route);
+        // Add a trailing slash if needed
+        const routePath = route.endsWith('/') || route === '' ? route : `${route}/`;
+        
+        // Navigate to the route using router
+        console.log('Navigating to route:', routePath);
+        router.push('/' + routePath);
       }
     }
   }, [router]);
