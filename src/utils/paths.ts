@@ -5,17 +5,21 @@
 /**
  * Returns the base path for the application
  * In development, this is an empty string
- * In production (GitHub Pages), this is '/reNamerX'
+ * In GitHub Pages, this is '/reNamerX'
+ * In Vercel, this is an empty string
  */
 export const getBasePath = (): string => {
-  return process.env.NODE_ENV === 'production' ? '/reNamerX' : '';
+  // Check if this is a GitHub Pages deployment
+  const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+  return isGitHubPages ? '/reNamerX' : '';
 };
 
 /**
  * Returns the full URL for a given path
  */
 export const getFullUrl = (path: string): string => {
-  const baseDomain = 'https://gcavazo1.github.io';
+  // This should be updated to use the actual domain from environment variable
+  const baseDomain = process.env.NEXT_PUBLIC_SITE_URL || 'https://renamerx.app';
   const basePath = getBasePath();
   
   // Ensure path starts with a slash

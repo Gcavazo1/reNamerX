@@ -4,6 +4,10 @@
   "framework": "nextjs",
   "outputDirectory": ".next",
   "regions": ["cle1"],
+  "env": {
+    "GITHUB_PAGES": "false",
+    "NEXT_PUBLIC_SITE_URL": "https://renamerx.app"
+  },
   "headers": [
     {
       "source": "/(.*)",
