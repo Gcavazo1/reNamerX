@@ -47,6 +47,9 @@ jobs:
         env:
           GITHUB_PAGES: 'true'
       
+      - name: Create .nojekyll File
+        run: touch out/.nojekyll
+      
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
