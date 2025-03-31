@@ -9,8 +9,9 @@
  * In Vercel, this is an empty string
  */
 export const getBasePath = (): string => {
-  // Check if this is a GitHub Pages deployment
-  const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+  // Check if this is a GitHub Pages deployment or if the hostname includes github.io
+  const isGitHubPages = process.env.GITHUB_PAGES === 'true' || 
+    (typeof window !== 'undefined' && window.location.hostname.includes('github.io'));
   return isGitHubPages ? '/reNamerX' : '';
 };
 

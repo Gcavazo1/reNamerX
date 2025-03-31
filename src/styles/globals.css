@@ -6,34 +6,34 @@
 /* Custom Font Declarations */
 @font-face {
   font-family: 'Modern Girl';
-  src: url('/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
-  font-weight: normal;
   font-style: normal;
+  font-weight: 400;
   font-display: swap;
+  src: url('/reNamerX/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Modern Girl';
-  src: url('/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
+  font-style: italic;
+  font-weight: 400;
   font-display: swap;
+  src: url('/reNamerX/fonts/modern-girl-font/ModernGirl-rg9Wx.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Wilma Mankiller';
-  src: url('/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
-  font-weight: normal;
+  font-family: 'Wilma Mankiller Modern';
   font-style: normal;
+  font-weight: 400;
   font-display: swap;
+  src: url('/reNamerX/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Wilma Mankiller';
-  src: url('/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
+  font-family: 'Wilma Mankiller Modern';
+  font-style: italic;
+  font-weight: 400;
   font-display: swap;
+  src: url('/reNamerX/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
 }
 
 @layer base {
