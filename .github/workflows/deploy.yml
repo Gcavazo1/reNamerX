@@ -22,11 +22,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          # Ensure it checks out the full repository
-          fetch-depth: 0
+      - name: Checkout Repository
+        uses: actions/checkout@v4
       
       # Clear caches if they exist (as suggested by Copilot)
       - name: Clear caches
@@ -36,36 +33,27 @@ jobs:
           mkdir -p ~/.cache/github-actions
       
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-          # Disable caching to avoid potential issues
-          cache: false
+          node-version: '18'
+          cache: 'npm'
       
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
       
-      - name: Build
+      - name: Build and Export
         run: npm run build:github
         env:
+          GITHUB_ACTIONS: true
           GITHUB_PAGES: 'true'
       
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v4
       
-      # First, let's upload the build as a regular artifact using the v4.6.2 action
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: github-pages
-          path: out
-          retention-days: 1
-      
-      # Then, use the GitHub Pages specific artifact uploader
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: './out'
+          path: 'out' # Ensure Next.js outputs to this folder
   
   # Deployment job
   deploy:
