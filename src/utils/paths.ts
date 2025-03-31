@@ -2,26 +2,21 @@
  * Path utilities for consistent path handling across the application
  */
 
+// Detect if we're running on GitHub Pages
+export const isGitHubPages = (): boolean => {
+  if (typeof window !== 'undefined') {
+    // Client-side detection
+    return window.location.hostname === 'gcavazo1.github.io';
+  }
+  // Server-side detection
+  return process.env.GITHUB_PAGES === 'true';
+};
+
 /**
  * Returns the base path for the application
  */
 export const getBasePath = (): string => {
-  // Only use the /reNamerX base path when deployed to GitHub Pages
-  if (typeof window !== 'undefined') {
-    // Check if we're on GitHub Pages
-    if (window.location.hostname === 'gcavazo1.github.io') {
-      return '/reNamerX';
-    }
-    // On Vercel or other platforms
-    return '';
-  }
-  
-  // During SSR, check environment variable
-  if (process.env.GITHUB_PAGES === 'true') {
-    return '/reNamerX';
-  }
-  
-  return '';
+  return isGitHubPages() ? '/reNamerX' : '';
 };
 
 /**

@@ -1,8 +1,13 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import { getBasePath } from '@/utils/paths'
+import { getBasePath, isGitHubPages } from '@/utils/paths'
 
 export default function Document() {
   const basePath = getBasePath();
+  
+  // Use the specific image for GitHub Pages
+  const heroImagePath = isGitHubPages()
+    ? `${basePath}/images/renamerx-herobackground_git.png`
+    : '/images/renamerx-herobackground.png';
   
   return (
     <Html lang="en">
@@ -17,7 +22,7 @@ export default function Document() {
         {/* Fix for hero background image */}
         <style dangerouslySetInnerHTML={{ __html: `
           .bg-hero-pattern {
-            background-image: url('${basePath}/images/reNamerX_heroBackground.png') !important;
+            background-image: url('${heroImagePath}') !important;
           }
         `}} />
       </Head>
