@@ -55,6 +55,27 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router.events])
 
+  useEffect(() => {
+    // This script checks if a route was passed in the URL query
+    // and navigates to that route if it exists
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const route = params.get('route');
+      const { pathname } = router;
+      
+      if (route && pathname === '/') {
+        // Remove the route parameter from the URL
+        const newUrl = window.location.pathname + 
+                      window.location.search.replace(`route=${route}`, '').replace(/\?$/, '') + 
+                      window.location.hash;
+        window.history.replaceState(null, '', newUrl);
+        
+        // Navigate to the route
+        router.push('/' + route);
+      }
+    }
+  }, [router]);
+
   return (
     <>
       <Head>
