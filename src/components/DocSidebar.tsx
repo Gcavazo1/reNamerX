@@ -20,6 +20,7 @@ const DocSidebar: React.FC<DocSidebarProps> = ({ currentPath, sections = [], oth
     { path: '/docs/getting-started', title: 'Getting Started' },
     { path: '/docs/features', title: 'Features' },
     { path: '/docs/usage-guide', title: 'Usage Guide' },
+    { path: '/docs/api', title: 'API Documentation' },
     { path: '/docs/faq', title: 'FAQ' },
     { path: '/docs/troubleshooting', title: 'Troubleshooting' }
   ];
