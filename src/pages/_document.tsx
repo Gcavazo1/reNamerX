@@ -48,6 +48,11 @@ export default function Document() {
             font-display: swap;
             src: url('${basePath}/fonts/wilma-mankiller-modern-font/WilmaMankillerModern-J4Ej.ttf') format('truetype');
           }
+          
+          /* Override Tailwind hero background image path for GitHub Pages */
+          .bg-hero-pattern {
+            background-image: url('${basePath}/images/reNamerX_heroBackground.png') !important;
+          }
         `}} />
       </Head>
       <body className="bg-background text-text-primary antialiased">
@@ -57,15 +62,24 @@ export default function Document() {
               // Set base path for assets
               window.basePath = "${basePath}";
               
-              // Fix background images with basePath
+              // Make sure all assets use the correct base path
               document.addEventListener('DOMContentLoaded', function() {
-                const heroElements = document.querySelectorAll('.bg-hero-pattern');
-                heroElements.forEach(el => {
+                // Fix any additional background images that might be loaded
+                const bgElements = document.querySelectorAll('[style*="background-image"]');
+                bgElements.forEach(el => {
                   const style = getComputedStyle(el);
                   let bgImage = style.backgroundImage;
-                  if (bgImage && bgImage.includes('/images/')) {
+                  if (bgImage && bgImage.includes('/images/') && !bgImage.includes(window.basePath)) {
                     bgImage = bgImage.replace(/url\\(['"]?\\/images\\//g, 'url(' + window.basePath + '/images/');
                     el.style.backgroundImage = bgImage;
+                  }
+                });
+                
+                // Fix any image src attributes
+                const imgElements = document.querySelectorAll('img[src^="/images/"]');
+                imgElements.forEach(el => {
+                  if (!el.src.includes(window.basePath)) {
+                    el.src = window.basePath + el.getAttribute('src');
                   }
                 });
               });
