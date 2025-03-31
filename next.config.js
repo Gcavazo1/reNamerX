@@ -16,7 +16,7 @@ const nextConfig = {
   assetPrefix: process.env.GITHUB_PAGES === 'true' ? '/reNamerX' : '',
   
   // Static HTML export (only needed for GitHub Pages, Vercel handles this automatically)
-  output: process.env.GITHUB_PAGES === 'true' ? 'export' : undefined,
+  output: 'export',
 }
 
 module.exports = nextConfig 
