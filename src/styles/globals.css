@@ -90,7 +90,7 @@
 
   /* Hero section */
   .hero-section {
-    @apply relative min-h-[650px] h-screen flex items-center bg-hero-pattern bg-cover bg-center text-text-primary p-4;
+    @apply relative min-h-[650px] h-screen flex items-center bg-cover bg-center text-text-primary p-4;
     position: relative;
     overflow: hidden;
   }

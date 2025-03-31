@@ -1,5 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import { getBasePath, isGitHubPages } from '@/utils/paths'
+import { getBasePath } from '@/utils/paths'
 
 export default function Document() {
   const basePath = getBasePath();
@@ -15,18 +15,6 @@ export default function Document() {
         <link rel="stylesheet" href={`${basePath}/fonts/fonts.css`} />
       </Head>
       <body className="bg-background text-text-primary antialiased">
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Set base path for background images
-              document.addEventListener('DOMContentLoaded', function() {
-                var styleSheet = document.createElement('style');
-                styleSheet.textContent = '.bg-hero-pattern { background-image: url("${basePath}/images/reNamerX_heroBackground.png") !important; }';
-                document.head.appendChild(styleSheet);
-              });
-            `,
-          }}
-        />
         <Main />
         <NextScript />
       </body>

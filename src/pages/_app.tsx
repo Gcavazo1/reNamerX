@@ -190,11 +190,6 @@ export default function App({ Component, pageProps }: AppProps) {
         :root {
           --font-inter: ${inter.style.fontFamily};
         }
-        
-        /* Direct CSS for hero background */
-        .bg-hero-pattern {
-          background-image: url('${getBasePath()}/images/reNamerX_heroBackground.png') !important;
-        }
       `}</style>
       
       <Script 

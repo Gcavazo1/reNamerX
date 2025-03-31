@@ -55,7 +55,12 @@ const Home = () => {
       description="Powerful batch file renaming tool for Windows, macOS and Linux. Easily rename multiple files with patterns, counters, and more."
     >
       {/* Hero Section */}
-      <section className="hero-section">
+      <section 
+        className="hero-section" 
+        style={{ 
+          backgroundImage: `url('${getBasePath()}/images/reNamerX_heroBackground.png')` 
+        }}
+      >
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <div className="flex flex-col items-start">
